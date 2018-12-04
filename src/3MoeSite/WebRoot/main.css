@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    font-size: .9em;
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #334499;
+}
+
+a {
+  text-decoration: none;
+  color: #7524D8;
+}
+
+.headerNavigationBar {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #AF9DE0;
+  text-transform: uppercase;
+}
+
+.headerButton {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+.headerButton a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  background: #865DAD;
+  /*font-family: 'Ubuntu Condensed', sans-serif;*/
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.headerButton a:hover, .headerButton a:focus {
+  color: #230033;
+  background: #A775FF;
+}

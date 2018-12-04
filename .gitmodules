@@ -1,0 +1,3 @@
+[submodule "src/WGApiWrapper"]
+	path = src/WGApiWrapper
+	url = https://github.com/wot-tools/wg-api-wrapper.git
