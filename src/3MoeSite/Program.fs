@@ -35,7 +35,7 @@ module Views =
     let table () =
         div [ _class "foo"] [
             table [] [
-                tr [] ([1 .. 5] |> List.map (fun i -> [i |> string |> encodedText] |> td []))
+                [1 .. 5] |> List.map (fun i -> [i |> string |> encodedText] |> td []) |> tr []
             ]
             a [ _href "https://www.google.com/"
                 _target "blank"
