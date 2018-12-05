@@ -1,4 +1,5 @@
-﻿module _3MoeSite.Views
+﻿[<AutoOpen>]
+module _3MoeSite.Views.Navigation
 open Giraffe.GiraffeViewEngine
 
 let navigation () =

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Include="Model\GeneralModel.fs" />
+    <Compile Include="View\Table.fs" />
     <Compile Include="View\Navigation.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

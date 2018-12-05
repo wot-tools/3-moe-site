@@ -4,3 +4,10 @@ type Message =
     {
         Text : string
     }
+
+type TestObject =
+    {
+        name : string
+        age : int
+        favoriteColor : string
+    }
