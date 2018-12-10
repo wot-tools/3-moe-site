@@ -11,3 +11,11 @@ type TestObject =
         age : int
         favoriteColor : string
     }
+
+[<CLIMutable>]
+type TableParams = 
+    {
+        sort : string
+        direction : string
+        page : int 
+    }

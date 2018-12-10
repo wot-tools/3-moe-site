@@ -11,6 +11,7 @@ open Giraffe
 open _3MoeSite.Model
 open _3MoeSite.Views
 open System.Globalization
+open WGApiDataProvider
 
 // ---------------------------------
 // Views
@@ -18,6 +19,8 @@ open System.Globalization
 
 module Views =
     open GiraffeViewEngine
+
+    let data = WGApiDataProvider.Instance
 
     let layout (content: XmlNode list) =
         html [] [
@@ -27,31 +30,45 @@ module Views =
                        _type "text/css"
                        _href "/main.css" ]
             ]
-            body [] content
+            body [] (navigation () :: content)
         ]
 
     let partial () =
         h1 [] [ encodedText "_3MoeSite" ]
 
-    let tableTest comparer =
+    let playersTable params =
+        let tableTemplate = customTable [
+                { name = "Name"; sortName = "name"; selector = fun ( p : Player ) -> S p.Name }
+                { name = "Clan"; sortName = "clan"; selector = fun p -> S (string p.Clan) }
+                { name = "3 MoE"; sortName = "moe"; selector = fun p -> I p.ThreeMoeCount }
+                { name = "Battles"; sortName = "battles"; selector = fun p -> I p.BattleCount }
+                { name = "Win ratio"; sortName = "wr"; selector = fun p -> M p.WinRatio }
+                { name = "WN8"; sortName = "wn8"; selector = fun p -> D p.Wn8 }
+                { name = "MoE Rating"; sortName = "moer"; selector = fun p -> D p.MoeRating }
+                { name = "WG Rating"; sortName = "wgr"; selector = fun p -> I p.WgRating }
+                { name = "Client language"; sortName = "lang"; selector = fun p -> S p.ClientLanguage }
+                { name = "Last battle"; sortName = "lbatt"; selector = fun p -> T p.LastBattle }
+                { name = "Last logout"; sortName = "llog"; selector = fun p -> T p.LastLogout }
+                { name = "Account created"; sortName = "created"; selector = fun p -> T p.AccountCreated }
+                { name = "Last update (WG)"; sortName = "lupd"; selector = fun p -> T p.LastWgUpdate }
+                { name = "Last checked"; sortName = "lch"; selector = fun p -> T p.LastChecked } ] params
+
         [
-            navigation ()
-            h1 [] [ encodedText "Table Name" ]
-            [
-                { name = "Klaus"; age = 12; favoriteColor = "yellow" }
-                { name = "Dieter"; age = 35; favoriteColor = "blue" }
-                { name = "Karl"; age = 45; favoriteColor = "orange" }
-                { name = "Fritz"; age = 23; favoriteColor = "purple" }
-                { name = "Bob"; age = 64; favoriteColor = "beige" }
-            ] |> List.sortWith comparer
-              |> customTable [
-                { name = "Name"; selector = fun o -> o.name }
-                { name = "Age"; selector = fun o -> string o.age }
-                { name = "Favorite Color"; selector = fun o -> o.favoriteColor }
-            ]
+            h1 [] [ encodedText "Players" ]
+            data.Players |> tableTemplate
         ] |> layout
 
-    let tableTestDefault () = tableTest (fun o1 o2 -> o1.name.CompareTo o2.name)
+    let marksTable params =
+        let tableTemplate = customTable [
+            { name = "Player"; sortName = "player"; selector = fun ( m : Mark ) -> S m.Player.Name }
+            { name = "Clan"; sortName = "clan"; selector = fun m -> S m.Clan.Name }
+            { name = "Tank"; sortName = "tank"; selector = fun m -> S m.Tank.Name }
+            { name = "First Detected At"; sortName = "det"; selector = fun m -> T m.FirstDetected } ] params
+
+        [
+            h1 [] [ encodedText "Marky Marks" ]
+            data.Marks |> tableTemplate
+        ] |> layout
 
     let foo () =
         div [ _class "foo"] [
@@ -65,7 +82,6 @@ module Views =
 
     let index (model : Message) =
         [
-            navigation()
             partial()
             p [] [ encodedText model.Text ]
             foo()
@@ -81,40 +97,14 @@ let indexHandler (name : string) =
     let view      = Views.index model
     htmlView view
 
-let tableHandler () = htmlView (Views.tableTestDefault ())
-
-[<CLIMutable>]
-type SortParams = { Name : string; Direction : string }
-
-let sortHandler (params : SortParams) =
-    let _compare prop objs =
-        let o1, o2 = objs 
-        compare (prop o1) (prop o2)
-
-    let compareTestObjects o1 o2 = 
-        let objs = match params.Direction with
-                   | "asc" -> (o1, o2)
-                   | "desc" -> (o2, o1)
-                   | _ -> (o1, o2)
-
-        _compare (fun (o : TestObject) -> 
-            match params.Name with
-            | "Name" -> o.name
-            | "Age" -> string o.age
-            | "Favorite Color" -> o.favoriteColor
-            | _ -> o.name
-        ) objs
-
-    htmlView (Views.tableTest compareTestObjects)
-
-
 let webApp =
     choose [
         GET >=>
             choose [
                 route "/" >=> indexHandler "world"
                 routef "/hello/%s" indexHandler
-                route "/table" >=> tryBindQuery<SortParams> (fun err -> RequestErrors.BAD_REQUEST err) (Some CultureInfo.InvariantCulture) sortHandler
+                route "/players"  >=> tryBindQuery<TableParams> (fun err -> RequestErrors.BAD_REQUEST err) (Some CultureInfo.InvariantCulture) (Views.playersTable >> htmlView)
+                route "/marks"    >=> tryBindQuery<TableParams> (fun err -> RequestErrors.BAD_REQUEST err) (Some CultureInfo.InvariantCulture) (Views.marksTable   >> htmlView)
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
