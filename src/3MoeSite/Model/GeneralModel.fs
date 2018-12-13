@@ -17,5 +17,5 @@ type TableParams =
     {
         sort : string
         direction : string
-        page : int 
+        page : int
     }

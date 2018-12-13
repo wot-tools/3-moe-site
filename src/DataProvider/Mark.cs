@@ -6,9 +6,26 @@ namespace WGApiDataProvider
 {
     public class Mark
     {
-        public Player Player { get; }
-        public Clan Clan { get; }
-        public Tank Tank { get; }
-        public DateTime FirstDetected { get; }
+        private static DataProvider DataProvider;
+        public static void SetDataProvider(DataProvider provider) => DataProvider = provider;
+
+        private readonly int PlayerID;
+        public Player Player => DataProvider._Players[PlayerID];
+
+        private readonly int ClanID;
+        public Clan Clan => Player.Clan;
+
+        private readonly int TankID;
+        public Tank Tank => DataProvider._Tanks[TankID];
+
+        public readonly DateTime FirstDetected;
+
+        public Mark(int playerID, int clanID, int tankID, DateTime firstDetected)
+        {
+            PlayerID = playerID;
+            ClanID = clanID;
+            TankID = tankID;
+            FirstDetected = firstDetected;
+        }
     }
 }

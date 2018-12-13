@@ -12,6 +12,7 @@ open _3MoeSite.Model
 open _3MoeSite.Views
 open System.Globalization
 open WGApiDataProvider
+open Microsoft.EntityFrameworkCore.Diagnostics
 
 // ---------------------------------
 // Views
@@ -19,7 +20,10 @@ open WGApiDataProvider
 
 module Views =
     open GiraffeViewEngine
+    open Newtonsoft.Json
+    open Giraffe.HttpStatusCodeHandlers
 
+    //let data = MockupDataProvider.Instance
     let data = WGApiDataProvider.Instance
 
     let layout (content: XmlNode list) =
@@ -37,21 +41,24 @@ module Views =
         h1 [] [ encodedText "_3MoeSite" ]
 
     let playersTable params =
-        let tableTemplate = customTable [
-                { name = "Name"; sortName = "name"; selector = fun ( p : Player ) -> S p.Name }
-                { name = "Clan"; sortName = "clan"; selector = fun p -> S (string p.Clan) }
-                { name = "3 MoE"; sortName = "moe"; selector = fun p -> I p.ThreeMoeCount }
-                { name = "Battles"; sortName = "battles"; selector = fun p -> I p.BattleCount }
-                { name = "Win ratio"; sortName = "wr"; selector = fun p -> M p.WinRatio }
-                { name = "WN8"; sortName = "wn8"; selector = fun p -> D p.Wn8 }
-                { name = "MoE Rating"; sortName = "moer"; selector = fun p -> D p.MoeRating }
-                { name = "WG Rating"; sortName = "wgr"; selector = fun p -> I p.WgRating }
-                { name = "Client language"; sortName = "lang"; selector = fun p -> S p.ClientLanguage }
-                { name = "Last battle"; sortName = "lbatt"; selector = fun p -> T p.LastBattle }
-                { name = "Last logout"; sortName = "llog"; selector = fun p -> T p.LastLogout }
-                { name = "Account created"; sortName = "created"; selector = fun p -> T p.AccountCreated }
-                { name = "Last update (WG)"; sortName = "lupd"; selector = fun p -> T p.LastWgUpdate }
-                { name = "Last checked"; sortName = "lch"; selector = fun p -> T p.LastChecked } ] params
+        let tableTemplate = customTable ([
+            createCustomColumn "Name"       "name"      (fun p -> S p.Name)
+                (fun p -> a [ _href (sprintf "/player/%i" p.ID) ] [ encodedText p.Name ])
+            createCustomColumn "Clan"       "clan"      (fun p -> S (string p.Clan))
+                (fun p -> a [ _href (sprintf "/clan/%i" p.Clan.ID) ] [ encodedText p.Clan.Name ])
+            createColumn "3 MoE"            "moe"       (fun p -> I p.ThreeMoeCount)
+            createColumn "Battles"          "battles"   (fun p -> I p.BattleCount)
+            createColumn "Win ratio"        "wr"        (fun p -> M p.WinRatio)
+            createColumn "WN8"              "wn8"       (fun p -> D p.Wn8)
+            createColumn "MoE Rating"       "moer"      (fun p -> D p.MoeRating)
+            createColumn "WG Rating"        "wgr"       (fun p -> I p.WgRating)
+            createColumn "Client language"  "lang"      (fun p -> S p.ClientLanguage)
+            createColumn "Last battle"      "lbatt"     (fun p -> T p.LastBattle)
+            createColumn "Last logout"      "llog"      (fun p -> T p.LastLogout)
+            createColumn "Account created"  "created"   (fun p -> T p.AccountCreated)
+            createColumn "Last update (WG)" "lupd"      (fun p -> T p.LastWgUpdate)
+            createColumn "Last checked"     "lch"       (fun p -> T p.LastChecked)
+        ] : Player Column list) params
 
         [
             h1 [] [ encodedText "Players" ]
@@ -59,15 +66,53 @@ module Views =
         ] |> layout
 
     let marksTable params =
-        let tableTemplate = customTable [
-            { name = "Player"; sortName = "player"; selector = fun ( m : Mark ) -> S m.Player.Name }
-            { name = "Clan"; sortName = "clan"; selector = fun m -> S m.Clan.Name }
-            { name = "Tank"; sortName = "tank"; selector = fun m -> S m.Tank.Name }
-            { name = "First Detected At"; sortName = "det"; selector = fun m -> T m.FirstDetected } ] params
+        let tableTemplate = customTable ([
+            createCustomColumn "Player"     "player"(fun m -> S m.Player.Name)
+                (fun m -> a [ _href (sprintf "/player/%i" m.Player.ID) ] [ encodedText m.Player.Name ])
+            createCustomColumn "Clan"       "clan"  (fun m -> S m.Clan.Name)
+                (fun m -> a [ _href (sprintf "/clan/%i" m.Clan.ID) ] [ encodedText m.Clan.Name ])
+            createCustomColumn "Tank"       "tank"  (fun m -> S m.Tank.Name)
+                (fun m -> a [ _href (sprintf "/tank/%i" m.Tank.ID) ] [ encodedText m.Tank.Name ])
+            createColumn "First Detected At""det"   (fun m -> T m.FirstDetected) 
+        ] : Mark Column List) params
 
         [
             h1 [] [ encodedText "Marky Marks" ]
             data.Marks |> tableTemplate
+        ] |> layout
+
+    let clansTable params =
+        let tableTemplate = customTable ([
+            createCustomColumn "Name"       "name"  (fun c -> S c.Name)
+                (fun c -> a [ _href (sprintf "/clan/%i" c.ID) ] [ encodedText c.Name ])
+            createColumn "Tag"              "tag"   (fun c -> S c.Tag)
+            createColumn "3 MoE"            "moe"   (fun c -> I c.ThreeMoe)
+            createColumn "MoE Rating"       "moer"  (fun c -> D c.MoeRating)
+            createColumn "Last update (WG)" "lupd"  (fun c -> T c.UpdatedWG)
+            createColumn "Created at"       "created"(fun c -> T c.CreatedAt)
+            createColumn "Tracking started" "trsta" (fun c -> T c.TrackingStarted)
+            createColumn "Last checked at"  "lch"   (fun c -> T c.LastChecked)
+        ] : Clan Column List) params
+
+        [
+            h1 [] [ encodedText "Clans" ]
+            data.Clans |> tableTemplate
+        ] |> layout
+
+    let tanksTable params =
+        let tableTemplate = customTable ([
+            createColumn "Name"         "name"  (fun t -> S t.Name)
+            createColumn "Short Name"   "sn"    (fun t -> S t.ShortName)
+            createColumn "3 MoE"        "moe"   (fun t -> I t.ThreeMoeCount)
+            createColumn "MoE Value"    "moev"  (fun t -> D t.MoeValue)
+            createColumn "Tier"         "tier"  (fun t -> I t.Tier)
+            createColumn "Nation"       "nat"   (fun t -> E t.Nation)
+            createColumn "Type"         "type"  (fun t -> E t.Type)
+        ] : Tank Column List) params
+
+        [
+            h1 [] [encodedText "Tanks" ]
+            data.Tanks |> tableTemplate
         ] |> layout
 
     let foo () =
@@ -79,6 +124,34 @@ module Views =
                 _target "blank"
             ] [encodedText "click for google"]
         ]
+
+    let playerPage id =
+        let player = data._Players.[id]
+
+        [
+            h1 [] [ encodedText player.Name ]
+            h2 [] [ encodedText player.Clan.Name ]
+        ] |> layout
+
+    let clanPage id =
+        let clan = data._Clans.[id]
+
+        [
+            h1 [] [ encodedText clan.Name ]
+            h2 [] [ encodedText clan.Tag ]
+            h2 [] [ encodedText (string clan.CreatedAt) ]
+            h2 [] [ encodedText "players" ]
+        ] |> layout
+
+    let tankPage id =
+        let tank = data._Tanks.[id]
+
+        [
+            h1 [] [ encodedText tank.Name ]
+            h2 [] [ encodedText (string tank.Nation) ]
+            h2 [] [ encodedText (string tank.Type) ]
+            h2 [] [ encodedText "players with marks" ]
+        ] |> layout
 
     let index (model : Message) =
         [
@@ -97,14 +170,34 @@ let indexHandler (name : string) =
     let view      = Views.index model
     htmlView view
 
+let playerHandler (id : int) =
+    htmlView (Views.playerPage id)
+
+let clanHandler (id : int) =
+    htmlView (Views.clanPage id)
+
+let tankHandler (id : int) =
+    htmlView (Views.tankPage id)
+
+let tableBinding (viewFunc : TableParams -> GiraffeViewEngine.XmlNode) defaultParams =
+    tryBindQuery<TableParams>
+        (fun err -> (viewFunc >> htmlView) defaultParams) // abusing error func to show default when empty args, but faulty args will trigger that too
+        (Some CultureInfo.InvariantCulture)
+        (viewFunc >> htmlView)
+
 let webApp =
     choose [
         GET >=>
             choose [
                 route "/" >=> indexHandler "world"
                 routef "/hello/%s" indexHandler
-                route "/players"  >=> tryBindQuery<TableParams> (fun err -> RequestErrors.BAD_REQUEST err) (Some CultureInfo.InvariantCulture) (Views.playersTable >> htmlView)
-                route "/marks"    >=> tryBindQuery<TableParams> (fun err -> RequestErrors.BAD_REQUEST err) (Some CultureInfo.InvariantCulture) (Views.marksTable   >> htmlView)
+                routef "/player/%i" playerHandler
+                routef "/clan/%i" clanHandler
+                routef "/tank/%i" tankHandler
+                route "/players" >=> tableBinding Views.playersTable { sort = "moer"; direction = "desc"; page = 1 }
+                route "/marks"   >=> tableBinding Views.marksTable { sort = "det"; direction = "desc"; page = 1 }
+                route "/clans"   >=> tableBinding Views.clansTable { sort = "moe"; direction = "desc"; page = 1 }
+                route "/tanks"   >=> tableBinding Views.tanksTable { sort = "moe"; direction = "asc"; page = 1 }
             ]
         setStatusCode 404 >=> text "Not Found" ]
 

@@ -3,6 +3,8 @@ module _3MoeSite.Views.Table
 open Giraffe.GiraffeViewEngine
 open _3MoeSite.Model
 open System
+open System.Linq
+open WGApiDataProvider
 
 [<StructuralEquality>]
 [<StructuralComparison>]
@@ -12,6 +14,7 @@ type TableCellObject =
     | M of decimal
     | D of double
     | T of DateTime
+    | E of Enum
 
 let printCellObject (o : TableCellObject) =
     match o with
@@ -20,8 +23,21 @@ let printCellObject (o : TableCellObject) =
     | M m -> string m
     | D d -> string d
     | T t -> string t
+    | E e -> string e
 
-type 'T Column = { name : string; sortName : string; selector : 'T -> TableCellObject }
+type 'T Column =
+    {
+        name : string
+        sortName : string
+        selector : 'T -> TableCellObject
+        customContent : Option<'T -> XmlNode>
+    }
+
+let createColumn name sortName selector =
+    { name = name; sortName = sortName; selector = selector; customContent = None }
+
+let createCustomColumn name sortName selector customContent =
+    { name = name; sortName = sortName; selector = selector; customContent = Some customContent }
 
 let pageSize = 10
 
@@ -87,7 +103,11 @@ let customTable ( columns : Column<'a> list ) ( params : TableParams ) ( objects
         
     let body() =
         tbody []
-            (sortAndFilter columns params objects |> List.map (fun o -> columns |> List.map (fun c -> td [] [ o |> c.selector |> printCellObject |> encodedText ]) |> tr []))
+            (sortAndFilter columns params objects |> List.map 
+                (fun o -> columns |> List.map (fun c ->
+                    [(match c.customContent with
+                     | None -> o |> c.selector |> printCellObject |> encodedText
+                     | Some f -> f o)] |> td []) |> tr []))
 
     table [] [
         header()
