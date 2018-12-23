@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,6 +52,7 @@ namespace WGApiDataProvider
         {
             Mark.SetDataProvider(this);
             Player.SetDataProvider(this);
+            Tank.SetDataProvider(this);
 
             Client = new WGApiClient("https://api.worldoftanks", Region.eu, "insert key here, cause I'm lazy", new Logger());
 
