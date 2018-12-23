@@ -26,10 +26,10 @@ module Views =
     //let data = MockupDataProvider.Instance
     let data = WGApiDataProvider.Instance
 
-    let layout (content: XmlNode list) =
+    let layout customTitlePrefix (content: XmlNode list) =
         html [] [
             head [] [
-                title []  [ encodedText "_3MoeSite" ]
+                title []  [ encodedText (sprintf "%s | 3 MoE" customTitlePrefix) ]
                 link [ _rel  "stylesheet"
                        _type "text/css"
                        _href "/main.css" ]
@@ -73,7 +73,7 @@ module Views =
         [
             h1 [] [ encodedText "Players" ]
             data.Players |> tableTemplate
-        ] |> layout
+        ] |> layout "Players"
 
     let marksTable params =
         let tableTemplate = customTable ([
@@ -89,7 +89,7 @@ module Views =
         [
             h1 [] [ encodedText "Marky Marks" ]
             data.Marks |> tableTemplate
-        ] |> layout
+        ] |> layout "Marky Marks"
 
     let clansTable params =
         let tableTemplate = customTable ([
@@ -107,7 +107,7 @@ module Views =
         [
             h1 [] [ encodedText "Clans" ]
             data.Clans |> tableTemplate
-        ] |> layout
+        ] |> layout "Clans"
 
     let tanksTable params =
         let tableTemplate = customTable ([
@@ -123,7 +123,7 @@ module Views =
         [
             h1 [] [encodedText "Tanks" ]
             data.Tanks |> tableTemplate
-        ] |> layout
+        ] |> layout "Tanks"
 
     let foo () =
         div [ _class "foo"] [
@@ -141,7 +141,7 @@ module Views =
         [
             h1 [] [ encodedText player.Name ]
             h2 [] [ encodedText player.Clan.Name ]
-        ] |> layout
+        ] |> layout player.Name
 
     let clanPage id =
         let clan = data._Clans.[id]
@@ -151,7 +151,7 @@ module Views =
             h2 [] [ encodedText clan.Tag ]
             h2 [] [ encodedText (string clan.CreatedAt) ]
             h2 [] [ encodedText "players" ]
-        ] |> layout
+        ] |> layout clan.Tag
 
     let tankPage id =
         let tank = data._Tanks.[id]
@@ -161,14 +161,14 @@ module Views =
             h2 [] [ encodedText (string tank.Nation) ]
             h2 [] [ encodedText (string tank.Type) ]
             h2 [] [ encodedText "players with marks" ]
-        ] |> layout
+        ] |> layout tank.Name
 
     let index (model : Message) =
         [
             partial()
             p [] [ encodedText model.Text ]
             foo()
-        ] |> layout
+        ] |> layout "Index"
 
 // ---------------------------------
 // Web app
