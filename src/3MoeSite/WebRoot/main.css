@@ -57,6 +57,19 @@ a {
   font-size: 12px
 }
 
+.errorBox {
+  background: #ff009985;
+  border: 2px solid black;
+  margin: 6px;
+  padding: 3px;
+  width: fit-content;
+}
+
+  .errorBox span {
+    font-size: large;
+    font-weight: bold;
+  }
+
 .linkWithImage {
   margin-left: 6px;
 }

@@ -182,9 +182,27 @@ module Views =
         | i when i < 0.65m -> "cUnicum"
         | i -> "cSuperUnicum" 
 
-    let playerPage id =
-        let player = data._Players.[id]
+    let errorBlock errorText = 
+        [
+            div [ _class "errorBox"] [
+                span [] [ encodedText "Error" ]
+                br []
+                encodedText errorText
+            ]
+        ] |> layout "Error!"
 
+    let playerPage id =
+        let (success, player) = data._Players.TryGetValue id
+
+        let dateBlock (displayValue : DateTime) text = 
+            div [ _class "dateValueBox" ] [
+                    div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", displayValue)) ]
+                    encodedText text
+                ]
+
+        match success with
+        | false -> errorBlock (sprintf "Could not find the player with Wargaming ID '%i'" id)        
+        | true ->
         [
             div [ _class "playerInfoBlock"] [
                 div [ _class "clearfix" ] [
