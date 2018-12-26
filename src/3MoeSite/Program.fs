@@ -43,13 +43,13 @@ module Views =
                     encodedText " | "
                     a [ _href "http://forum.wotlabs.net/index.php?/topic/22352-marks-of-excellence-data-a-new-metric-has-been-born-251216-last-christmas-i-gave-you-my-marks/" ] [ encodedText "Wotlabs forum thread" ]
                     encodedText " | Created by Aim_Drol and pun_xD 2k16 - 2k17 \\//\\/"
-        ]
+                ]
             ]
         ]
 
     let partial () =
         h1 [] [ encodedText "_3MoeSite" ]
-
+      
     let playersTable params =
         let tableTemplate = customTable ([
             createCustomColumn "Name"       "name"      (fun p -> S p.Name)
@@ -156,12 +156,131 @@ module Views =
                    ]
         ]|> layout "Home"
 
+    let getWn8CssClass (wn8 : float) =
+        match wn8 with
+        | i when i < 300.0 -> "cVeryBad"
+        | i when i < 450.0 -> "cBad"
+        | i when i < 650.0 -> "cBelowAverage"
+        | i when i < 900.0 -> "cAverage"
+        | i when i < 1200.0 -> "cAboveAverage"
+        | i when i < 1600.0 -> "cGood"
+        | i when i < 2000.0 -> "cVeryGood"
+        | i when i < 2450.0 -> "cGreat"
+        | i when i < 2900.0 -> "cUnicum"
+        | i -> "cSuperUnicum"
+
+    let getWinratioCssClass (winratio : decimal) =
+        match winratio with
+        | i when i < 0.46m -> "cVeryBad"
+        | i when i < 0.47m -> "cBad"
+        | i when i < 0.48m -> "cBelowAverage"
+        | i when i < 0.50m -> "cAverage"
+        | i when i < 0.52m -> "cAboveAverage"
+        | i when i < 0.54m -> "cGood"
+        | i when i < 0.56m -> "cVeryGood"
+        | i when i < 0.60m -> "cGreat"
+        | i when i < 0.65m -> "cUnicum"
+        | i -> "cSuperUnicum" 
+
     let playerPage id =
         let player = data._Players.[id]
 
         [
-            h1 [] [ encodedText player.Name ]
-            h2 [] [ encodedText player.Clan.Name ]
+            div [ _class "playerInfoBlock"] [
+                div [ _class "clearfix" ] [
+                    div [ _class "playerInfoDiv"] [
+                        div [ _class "playerName" ] [
+                            encodedText player.Name
+                            encodedText player.ClientLanguage
+                        ]
+                        div [ _class "moeCount" ] [
+                            encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))
+                        ]
+                        div [ _class "playerLinkDiv"] [
+                            a [ _href (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID)
+                                _target "blank" 
+                                _class "linkWithImage"] [
+                                    img [ _src "http://eu.wargaming.net/favicon.ico" ]
+                                    encodedText "WG Profile"
+                                ]
+                            a [ _href (sprintf "http://wotlabs.net/eu/player/%s" player.Name)
+                                _target "blank" 
+                                _class "linkWithImage"] [
+                                    img [ _src "http://wotlabs.net/images/favicon.png" ]
+                                    encodedText "Wotlabs"
+                                ]
+                        ]
+                    ]
+                    div [ _class "clanInfoDiv" ] [
+                        img [ _src (System.String.Format("https://eu.wargaming.net/clans/media/clans/emblems/cl_335/{0}/emblem_32x32.png", player.Clan.ID)) 
+                              _class "clanIcon" ]
+                        span [ _class "clanTag" ] [ 
+                                a [ _href (sprintf "/clan/%i" player.Clan.ID)
+                                    _target "blank" ] [
+                                        encodedText player.Clan.Tag
+                                ]
+                        ]
+                        div [ _class "clanLinkDiv" ] [
+                            a [ _href (sprintf "https://eu.wargaming.net/clans/wot/%i" player.Clan.ID) 
+                                _target "blank" 
+                                _class "linkWithImage" ] [
+                                    img [ _src "http://eu.wargaming.net/favicon.ico" ]
+                                    encodedText "WG Profile"
+                                ]
+                            a [ _href (sprintf "https://wotlabs.net/eu/clan/%s" player.Clan.Tag) 
+                                _target "blank" 
+                                _class "linkWithImage" ] [
+                                    img [ _src "http://wotlabs.net/images/favicon.png" ]
+                                    encodedText "Wotlabs"
+                                ]
+                        ]
+                    ]
+                ]
+                div [ _class "valueBoxes clearfix"] [
+                    div [ _class (sprintf "statValueBox darkBorder %s" (getWn8CssClass player.Wn8)) ] [
+                        div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.Wn8)) ]
+                        encodedText "WN8"
+                    ]
+                    div [ _class (sprintf "statValueBox darkBorder %s" (getWinratioCssClass player.WinRatio)) ] [
+                        div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:P2}", player.WinRatio)) ]
+                        encodedText "Winratio"
+                    ]
+                    div [ _class "statValueBox" ] [
+                        div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.BattleCount)) ]
+                        encodedText "Battles"
+                    ]
+                    div [ _class "statValueBox" ] [
+                        div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.MoeRating)) ]
+                        encodedText "MoE Rating"
+                    ]
+                    div [ _class "statValueBox" ] [
+                        div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.WgRating)) ]
+                        encodedText "WG Rating"
+                    ]
+                ]
+                div [ _class "valueBoxes clearfix"] [
+                    div [ _class "dateValueBox" ] [
+                        div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", player.LastBattle)) ]
+                        encodedText "Last Battle"
+                    ]
+                    div [ _class "dateValueBox" ] [
+                        div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", player.LastLogout)) ]
+                        encodedText "Last Logout"
+                    ]
+                    div [ _class "dateValueBox" ] [
+                        div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", player.LastChecked)) ]
+                        encodedText "Last checked"
+                    ]
+                    div [ _class "dateValueBox" ] [
+                        div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", player.AccountCreated)) ]
+                        encodedText "Account created"
+                    ]
+                    div [ _class "dateValueBox" ] [
+                        div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", player.LastWgUpdate)) ]
+                        encodedText "Last update (WG)"
+                    ]
+                ]
+            ]
         ] |> layout player.Name
 
     let clanPage id =

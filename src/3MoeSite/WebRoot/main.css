@@ -56,3 +56,182 @@ a {
 .footerText {
   font-size: 12px
 }
+
+.linkWithImage {
+  margin-left: 6px;
+}
+
+.linkWithImage img {
+  vertical-align: text-top;
+  margin-right: 3px;
+}
+
+.linkWithImage:first-of-type {
+  margin-left: 0px;
+}
+
+.clearfix::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.valueBoxes {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	clear: left;
+}
+
+.valueBox {
+	font-weight: bold;
+	padding: 10px 0;
+	text-align: center;
+	border: 2px solid #865DAD;
+	box-sizing: border-box;
+	width: 10%;
+	float: left;
+	margin-right: 5px;
+}
+
+.statValueBox {
+  font-weight: bold;
+	padding: 10px 0;
+	text-align: center;
+	border: 2px solid #865DAD;
+	box-sizing: border-box;
+	width: 10%;
+	float: left;
+	margin-right: 5px;
+	font-size: 10px;
+	min-width: 100px;	
+}
+
+  .statValueBox div {
+    font-size: 25px;
+  }
+
+.darkBorder {
+	border: 2px solid #000;
+}
+
+.dateValueBox {
+  font-weight: bold;
+	text-align: center;
+	box-sizing: border-box;
+	float: left;
+	font-size: 10px;
+	padding: 5px 0;
+	border: 1px solid #865DAD;
+	width: 15%;
+	min-width: 120px;
+	margin-right: 2px;
+}
+
+  .dateValueBox div {
+    font-size: 13px;
+  }
+
+.playerInfoBlock {
+	margin: 10px 0px 10px 0px;
+}
+
+.playerInfoDiv {
+  float: left;
+  padding: 5px;
+  border: 2px solid #865DAD;
+  margin-right: 5px;
+}
+
+.playerName {
+  font-size: 26px;
+}
+
+.playerLinkDiv {
+  margin-top: 6px
+}
+
+.moeCount {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.clanInfoDiv {
+  border: 2px solid #865DAD;
+  padding: 5px;
+  float: left;
+}
+
+  .clanInfoDiv img {
+    vertical-align: text-top;
+  }
+
+  .clanInfoDiv a {
+    text-decoration: none;
+  }
+
+  .clanInfoDiv span {
+    font-size: 22px;
+  }
+
+.clanLinkDiv {
+  margin-top: 6px
+}
+
+.clanIcon {
+  height: 32px;
+  width: 32px;
+  vertical-align: bottom;
+}
+
+.playerImageDiv {
+	float: left;
+	margin: 0px 5px 0px 0px;
+	border: 2px solid #865DAD;
+	height: 128px;
+}
+
+.image3moe {
+	height: 34px;
+	width: 38px;
+}
+
+.cVeryBad {
+	background-color:#930D0D;
+	color: #fff;
+}
+.cBad {
+	background-color:#CD3333;
+	color: #fff;
+}
+.cBelowAverage {
+	background-color:#CC7A00;
+	color: #fff;
+}
+.cAverage {
+	background-color:#CCB800;
+	color: #fff;
+}
+.cAboveAverage {
+	background-color:#849B24;
+	color: #fff;
+}
+.cGood {
+	background-color:#4D7326;
+	color: #fff;
+}
+.cVeryGood {
+	background-color:#4099BF;
+	color: #fff;
+}
+.cGreat {
+	background-color:#3972C6;
+	color: #fff;
+}
+.cUnicum {
+	background-color:#793DB6;
+	color: #fff;
+}
+.cSuperUnicum {
+	background-color:#401070;
+	color: #fff;
+}
