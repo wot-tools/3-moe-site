@@ -191,6 +191,17 @@ module Views =
             ]
         ] |> layout "Error!"
 
+    type StatValueObject =
+        | I of int
+        | D of decimal
+        | F of float
+
+    let printStatValueObject (o : StatValueObject) =
+        match o with
+        | I i -> System.String.Format("{0:N0}", i)
+        | D d -> System.String.Format("{0:P2}", d)
+        | F f -> System.String.Format("{0:N0}", f)
+
     let playerPage id =
         let (success, player) = data._Players.TryGetValue id
 
@@ -199,6 +210,18 @@ module Views =
                     div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", displayValue)) ]
                     encodedText text
                 ]
+
+        let statBlockColoredBackground (value : StatValueObject) (title : string) (colorClass : string)= 
+            div [ _class (sprintf "statValueBox darkBorder %s" colorClass) ] [
+                    div [ _class "statValueBoxDiv" ] [ encodedText (printStatValueObject value) ]
+                    encodedText title
+                ]
+
+        let statBlock (value : StatValueObject) (title : string) = 
+            div [ _class "statValueBox" ] [
+                    div [ _class "statValueBoxDiv" ] [ encodedText (printStatValueObject value) ]
+                    encodedText title
+                ]        
 
         match success with
         | false -> errorBlock (sprintf "Could not find the player with Wargaming ID '%i'" id)        
@@ -255,26 +278,11 @@ module Views =
                         ]
                     ]
                     div [ _class "valueBoxes clearfix"] [
-                        div [ _class (sprintf "statValueBox darkBorder %s" (getWn8CssClass player.Wn8)) ] [
-                            div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.Wn8)) ]
-                            encodedText "WN8"
-                        ]
-                        div [ _class (sprintf "statValueBox darkBorder %s" (getWinratioCssClass player.WinRatio)) ] [
-                            div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:P2}", player.WinRatio)) ]
-                            encodedText "Winratio"
-                        ]
-                        div [ _class "statValueBox" ] [
-                            div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.BattleCount)) ]
-                            encodedText "Battles"
-                        ]
-                        div [ _class "statValueBox" ] [
-                            div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.MoeRating)) ]
-                            encodedText "MoE Rating"
-                        ]
-                        div [ _class "statValueBox" ] [
-                            div [ _class "statValueBoxDiv" ] [ encodedText (System.String.Format("{0:N0}", player.WgRating)) ]
-                            encodedText "WG Rating"
-                        ]
+                        statBlockColoredBackground (F player.Wn8) "WN8" (getWn8CssClass player.Wn8)
+                        statBlockColoredBackground (D player.WinRatio) "Winratio" (getWinratioCssClass player.WinRatio)
+                        statBlock (I player.BattleCount) "Battles"
+                        statBlock (F player.MoeRating) "MoE Rating"
+                        statBlock (I player.WgRating) "WG Rating"
                     ]
                     div [ _class "valueBoxes clearfix"] [
                         dateBlock player.LastBattle "Last Battle"
