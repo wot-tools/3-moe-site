@@ -289,3 +289,35 @@ a {
 .imageAlignBottom {
 	vertical-align: bottom;
 }
+
+.tankInfoBlock {
+	margin: 10px 0px 10px 0px;
+	overflow: auto;
+}
+
+.tankImageDiv {
+  float: left;
+  margin: 0px 5px 0px 0px;
+  border: 1px solid #865DAD;
+}
+
+.tankName {
+	font-size: 26px;
+}
+
+.imageAlignBottom img{
+	vertical-align: bottom;
+}
+
+.image3moeTank {
+	height: 50px;
+  width: 56px;
+}
+
+.imageNation {
+	margin-right: 3px;
+}
+
+.imageTankType {
+	vertical-align: text-top;
+}

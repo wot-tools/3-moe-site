@@ -323,13 +323,36 @@ module Views =
             ] |> layout clan.Tag
 
     let tankPage id =
-        let tank = data._Tanks.[id]
+        let (success, tank) = data._Tanks.TryGetValue id
 
+        match success with
+        | false -> errorBlock (sprintf "Could not find the tank with ID '%i'" id)        
+        | true ->
         [
-            h1 [] [ encodedText tank.Name ]
-            h2 [] [ encodedText (string tank.Nation) ]
-            h2 [] [ encodedText (string tank.Type) ]
-            h2 [] [ encodedText "players with marks" ]
+                div [ _class "tankInfoBlock" ] [
+                    div [ _class "tankImageDiv" ] [
+                        img [ _src "" ]
+                    ]
+                    div [ _class "tankName" ] [
+                        encodedText tank.Name
+                    ]
+                    div [ _class "moeCount" ] [
+                        img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
+                              _class "image3moeTank imageAlignBottom" ]
+                        encodedText (System.String.Format("{0:N0}", tank.ThreeMoeCount))
+                    ]
+                    div [] [
+                        img [ _class "imageNation" 
+                              _src "" ]
+                        a [ _href (sprintf "/nation/%s" (string tank.Nation)) ] [ encodedText (string tank.Nation) ]
+                        encodedText ", "
+                        a [ _href (sprintf "/tiers/%i" tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
+                        encodedText ", "
+                        a [ _href (sprintf "/type/%s" (string tank.Type)) ] [ encodedText (string tank.Type) ]
+                        img [ _class "imageTankType" 
+                              _src "" ]
+                    ]
+                ]
         ] |> layout tank.Name
 
     let index (model : Message) =
