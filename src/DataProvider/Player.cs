@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace WGApiDataProvider
 
         private readonly int ClanID;
         private static Clan EmptyClan = new Clan(0, String.Empty, String.Empty, 0, 0, 0, 0, 0, 0, 0);
+        [JsonIgnore]
         public Clan Clan
         {
             get
@@ -27,6 +29,7 @@ namespace WGApiDataProvider
         private static DataProvider DataProvider;
         public static void SetDataProvider(DataProvider provider) => DataProvider = provider;
 
+        [JsonIgnore]
         public int ThreeMoeCount
         {
             get
@@ -70,7 +73,7 @@ namespace WGApiDataProvider
                  WGApi.EpochDateTime.FromEpoch(accountCreated), WGApi.EpochDateTime.FromEpoch(lastWgUpdate),
                  WGApi.EpochDateTime.FromEpoch(lastChecked)) { }
 
-        [Newtonsoft.Json.JsonConstructor]
+        [JsonConstructor]
         public Player(
             int id,
             string name,
@@ -113,7 +116,7 @@ namespace WGApiDataProvider
             ClanID = player.ClanID ?? 0;
             //ThreeMoeCount = -1;
             BattleCount = player.Statistics.Random.Battles;
-            WinRatio = player.Statistics.Random.Victories / Math.Max(1, player.Statistics.Random.Battles);
+            WinRatio = player.Statistics.Random.Victories / Math.Max(1m, player.Statistics.Random.Battles);
             Wn8 = -1;
             MoeRating = -1;
             WgRating = player.WGRating;
