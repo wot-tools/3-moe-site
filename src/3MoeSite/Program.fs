@@ -191,6 +191,14 @@ module Views =
             ]
         ] |> layout "Error!"
 
+    let linkWithImage (link : string) (title: string) (imgSrc : string) = 
+        a [ _href link
+            _target "blank" 
+            _class "linkWithImage"] [
+                img [ _src imgSrc ]
+                encodedText title
+          ]
+
     type StatValueObject =
         | I of int
         | D of decimal
@@ -238,17 +246,8 @@ module Views =
                                 encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))
                             ]
                             div [ _class "playerLinkDiv"] [
-                                a [ _href (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID)
-                                    _target "blank" 
-                                    _class "linkWithImage"] [
-                                        img [ _src "http://eu.wargaming.net/favicon.ico" ]
-                                        encodedText "WG Profile"
-                                    ]
-                                a [ _href (sprintf "http://wotlabs.net/eu/player/%s" player.Name)
-                                    _target "blank" 
-                                    _class "linkWithImage"] [
-                                        img [ _src "http://wotlabs.net/images/favicon.png" ]
-                                        encodedText "Wotlabs"
+                                linkWithImage (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID) "WG Profile " "http://eu.wargaming.net/favicon.ico"
+                                linkWithImage (sprintf "http://wotlabs.net/eu/player/%s" player.Name) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                                     ]
                             ]
                         ]
@@ -262,18 +261,8 @@ module Views =
                                     ]
                             ]
                             div [ _class "clanLinkDiv" ] [
-                                a [ _href (sprintf "https://eu.wargaming.net/clans/wot/%i" player.Clan.ID) 
-                                    _target "blank" 
-                                    _class "linkWithImage" ] [
-                                        img [ _src "http://eu.wargaming.net/favicon.ico" ]
-                                        encodedText "WG Profile"
-                                    ]
-                                a [ _href (sprintf "https://wotlabs.net/eu/clan/%s" player.Clan.Tag) 
-                                    _target "blank" 
-                                    _class "linkWithImage" ] [
-                                        img [ _src "http://wotlabs.net/images/favicon.png" ]
-                                        encodedText "Wotlabs"
-                                    ]
+                                linkWithImage (sprintf "https://eu.wargaming.net/clans/wot/%i" player.Clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
+                                linkWithImage (sprintf "https://wotlabs.net/eu/clan/%s" player.Clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                             ]
                         ]
                     ]
