@@ -248,3 +248,44 @@ a {
 	background-color:#401070;
 	color: #fff;
 }
+
+.clanInfoBlock {
+	margin: 10px 0px 0px 0px;
+}
+
+.clanInfoWrapper {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.clanImageDiv {
+  display: inline-block;
+  margin: 0px 5px 0px 0px;
+  border: 1px solid #865DAD;
+	height: 128px;
+}
+
+.externalClanLinks {
+	margin-top: 3px;
+}
+
+  .externalClanLinks a {
+    text-decoration: none;
+  }
+
+.clanImage {
+	height: 128px;
+	width: 128px;
+}
+
+.clanName {
+	font-size: 26px;
+}
+
+.clanTag {
+	font-size: 20px;
+}
+
+.imageAlignBottom {
+	vertical-align: bottom;
+}

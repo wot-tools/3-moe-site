@@ -200,6 +200,12 @@ module Views =
                 encodedText title
           ]
 
+    let dateBlock (displayValue : DateTime) text = 
+        div [ _class "dateValueBox" ] [
+                div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", displayValue)) ]
+                encodedText text
+            ]      
+
     type StatValueObject =
         | I of int
         | D of decimal
@@ -213,12 +219,6 @@ module Views =
 
     let playerPage id =
         let (success, player) = data._Players.TryGetValue id
-
-        let dateBlock (displayValue : DateTime) text = 
-            div [ _class "dateValueBox" ] [
-                    div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", displayValue)) ]
-                    encodedText text
-                ]
 
         let statBlockColoredBackground (value : StatValueObject) (title : string) (colorClass : string)= 
             div [ _class (sprintf "statValueBox darkBorder %s" colorClass) ] [
@@ -249,7 +249,6 @@ module Views =
                             div [ _class "playerLinkDiv"] [
                                 linkWithImage (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID) "WG Profile " "http://eu.wargaming.net/favicon.ico"
                                 linkWithImage (sprintf "http://wotlabs.net/eu/player/%s" player.Name) "Wotlabs" "http://wotlabs.net/images/favicon.png"
-                                    ]
                             ]
                         ]
                         div [ _class "clanInfoDiv" ] [
@@ -285,14 +284,43 @@ module Views =
             ] |> layout player.Name
 
     let clanPage id =
-        let clan = data._Clans.[id]
+        let (success, clan) = data._Clans.TryGetValue id
 
-        [
-            h1 [] [ encodedText clan.Name ]
-            h2 [] [ encodedText clan.Tag ]
-            h2 [] [ encodedText (string clan.CreatedAt) ]
-            h2 [] [ encodedText "players" ]
-        ] |> layout clan.Tag
+        match success with
+        | false -> errorBlock (sprintf "Could not find the clan with Wargaming ID '%i'" id)        
+        | true ->
+            [
+                div [ _class "clanInfoBlock"] [
+                    div [ _class "clanImageDiv" ] [
+                        img [ _class "clanImage" 
+                              _src ""]
+                    ]
+                    div [ _class "clanInfoWrapper" ] [
+                        div [ _class "clanName" ] [
+                            encodedText clan.Name
+                        ]
+                        div [ _class "clanTag" ] [
+                            encodedText clan.Tag
+                        ]
+                        div [ _class "moeCount"] [
+                            img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
+                                  _class "image3moe imageAlignBottom" ]
+                            encodedText (System.String.Format("{0:N0}", clan.ThreeMoe))
+                        ]
+                        div [] [ encodedText (sprintf "%i Members" clan.Members) ]
+                        div [ _class "externalClanLinks" ] [
+                            linkWithImage (sprintf "https://eu.wargaming.net/clans/wot/%i/" clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
+                            linkWithImage (sprintf "https://wotlabs.net/eu/clan/%s" clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
+                        ]
+                    ]
+                ]
+                div [ _class "valueBoxes clearfix"] [
+                        dateBlock clan.CreatedAt "Created at"
+                        dateBlock clan.LastChecked "Last checked"
+                        dateBlock clan.UpdatedWG "Last update (WG)"
+                        dateBlock clan.TrackingStarted "Tracking started"
+                    ]
+            ] |> layout clan.Tag
 
     let tankPage id =
         let tank = data._Tanks.[id]
