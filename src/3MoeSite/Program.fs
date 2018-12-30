@@ -50,7 +50,7 @@ module Views =
 
     let partial () =
         h1 [] [ encodedText "_3MoeSite" ]
-      
+
     let playersTable params =
         let tableTemplate = customTable ([
             createCustomColumn "Name"       "name"      (fun p -> S p.Name)
@@ -109,22 +109,6 @@ module Views =
             h1 [] [ encodedText "Clans" ]
             data.Clans |> tableTemplate
         ] |> layout "Clans"
-
-    let tanksTable params =
-        let tableTemplate = customTable ([
-            createColumn "Name"         "name"  (fun t -> S t.Name)
-            createColumn "Short Name"   "sn"    (fun t -> S t.ShortName)
-            createColumn "3 MoE"        "moe"   (fun t -> I t.ThreeMoeCount)
-            createColumn "MoE Value"    "moev"  (fun t -> D t.MoeValue)
-            createColumn "Tier"         "tier"  (fun t -> I t.Tier)
-            createColumn "Nation"       "nat"   (fun t -> E t.Nation)
-            createColumn "Type"         "type"  (fun t -> E t.Type)
-        ] : Tank Column List) params
-
-        [
-            h1 [] [encodedText "Tanks" ]
-            data.Tanks |> tableTemplate
-        ] |> layout "Tanks"
 
     let foo () =
         div [ _class "foo"] [
@@ -216,6 +200,20 @@ module Views =
         | I i -> System.String.Format("{0:N0}", i)
         | D d -> System.String.Format("{0:P2}", d)
         | F f -> System.String.Format("{0:N0}", f)
+
+    let tankDisplayTable = customTable ([
+        createCustomColumn "Name"         "name"  (fun t -> S t.Name)
+            (fun t -> (linkWithImage (sprintf "/tank/%i" t.ID) t.Name ""))
+        createColumn "Short Name"   "sn"    (fun t -> S t.ShortName)
+        createColumn "3 MoE"        "moe"   (fun t -> TableCellObject.I t.ThreeMoeCount)
+        createColumn "MoE Value"    "moev"  (fun t -> TableCellObject.D t.MoeValue)
+        createCustomColumn "Tier"         "tier"  (fun t -> TableCellObject.I t.Tier)
+            (fun t -> (linkWithImage (sprintf "/tier/%i" t.Tier) (string t.Tier) ""))
+        createCustomColumn "Nation"       "nat"   (fun t -> E t.Nation)
+            (fun t -> (linkWithImage (sprintf "/nation/%s" (string t.Nation)) (string t.Nation) ""))
+        createCustomColumn "Type"         "type"  (fun t -> E t.Type)
+            (fun t -> (linkWithImage (sprintf "/type/%s" (string t.Type)) (string t.Type) ""))
+        ] : Tank Column List)
 
     let playerPage id =
         let (success, player) = data._Players.TryGetValue id
@@ -322,13 +320,19 @@ module Views =
                     ]
             ] |> layout clan.Tag
 
+    let tanksTable params =
+        [
+            h1 [] [encodedText "Tanks" ]
+            data.Tanks |> tankDisplayTable params
+        ] |> layout "Tanks"
+
     let tankPage id =
         let (success, tank) = data._Tanks.TryGetValue id
 
         match success with
         | false -> errorBlock (sprintf "Could not find the tank with ID '%i'" id)        
         | true ->
-        [
+            [
                 div [ _class "tankInfoBlock" ] [
                     div [ _class "tankImageDiv" ] [
                         img [ _src "" ]
@@ -353,7 +357,7 @@ module Views =
                               _src "" ]
                     ]
                 ]
-        ] |> layout tank.Name
+            ] |> layout tank.Name
 
     let index (model : Message) =
         [
