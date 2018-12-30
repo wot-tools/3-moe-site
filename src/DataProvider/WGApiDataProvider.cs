@@ -38,8 +38,6 @@ namespace WGApiDataProvider
         public override Dictionary<int, Dictionary<int, Mark>> _PlayersMarks => __PlayersMarks;
         public override Mark[] Marks => _TanksMarks.Values.SelectMany(kvp => kvp.Values).ToArray();
 
-        
-
         private Dictionary<int, Clan> __Clans = new Dictionary<int, Clan>();
         public override Dictionary<int, Clan> _Clans => __Clans;
         public override Clan[] Clans => _Clans.Values.ToArray();
@@ -47,6 +45,8 @@ namespace WGApiDataProvider
         private Dictionary<int, Tank> __Tanks = new Dictionary<int, Tank>();
         public override Dictionary<int, Tank> _Tanks => __Tanks;
         public override Tank[] Tanks => _Tanks.Values.ToArray();
+
+        private Task RunningUpdate;
 
         private WGApiDataProvider()
         {
@@ -56,9 +56,13 @@ namespace WGApiDataProvider
 
             Client = new WGApiClient("https://api.worldoftanks", Region.eu, "insert key here, cause I'm lazy", new Logger());
 
-            LoadIDs("ids_EU.txt").Wait();
-            Task.Run(() => LoadTanks(Client));
-            Task.Run(UpdateLoop);
+            var idsTask = LoadIDs("ids_EU.txt");
+            var previousStateTask = TryLoad();
+            var tanksTask = LoadTanks(Client);
+
+            Task.WaitAll(idsTask, previousStateTask, tanksTask);
+
+            StartAutoUpdate();
 
             //__Players = JsonConvert.DeserializeObject<Player[]>(File.ReadAllText("player-test.json")).ToDictionary(p => p.ID);
             //__Clans = JsonConvert.DeserializeObject<Clan[]>(File.ReadAllText("clan-test.json")).ToDictionary(c => c.ID);
@@ -69,12 +73,61 @@ namespace WGApiDataProvider
 
         public void StartAutoUpdate()
         {
-
+            DoRun = true;
+            Task.Run(() => LoadTanks(Client));
+            RunningUpdate = Task.Run(UpdateLoop);
         }
 
-        public void StopAutoUpdate()
+        public async Task StopAutoUpdate()
         {
+            DoRun = false;
+            await RunningUpdate;
+            await Save();
+        }
 
+        private const string PLAYERS_DATA_FILE = "players.json";
+        private const string MARKS_DATA_FILE = "marks.json";
+        private const string CLANS_DATA_FILE = "clans.json";
+
+        private string CreateFilePath(string fileName) => Path.Combine("savedata", fileName);
+
+        private async Task<bool> TryLoad()
+        {
+            try
+            {
+                await Load();
+            }
+            catch (DirectoryNotFoundException) { return false; }
+            catch (FileNotFoundException) { return false; }
+            return true;
+        }
+
+        private async Task Load()
+        {
+            var playersTask = File.ReadAllTextAsync(CreateFilePath(PLAYERS_DATA_FILE));
+            var marksTask = File.ReadAllTextAsync(CreateFilePath(MARKS_DATA_FILE));
+            var clansTask = File.ReadAllTextAsync(CreateFilePath(CLANS_DATA_FILE));
+
+            await Task.WhenAll(playersTask, marksTask, clansTask);
+
+            __Players = JsonConvert.DeserializeObject<Dictionary<int, Player>>(playersTask.Result);
+            __PlayersMarks = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, Mark>>>(marksTask.Result);
+            __TanksMarks = __PlayersMarks
+                .SelectMany(kvp => kvp.Value.Values)
+                .GroupBy(m => m.TankID)
+                .ToDictionary(g => g.Key, g => g.ToDictionary(m => m.PlayerID));
+            __Clans = JsonConvert.DeserializeObject<Dictionary<int, Clan>>(clansTask.Result);
+        }
+
+        private async Task Save()
+        {
+            if (!Directory.Exists(CreateFilePath(String.Empty)))
+                Directory.CreateDirectory(CreateFilePath(String.Empty));
+
+            var playersTask = File.WriteAllTextAsync(CreateFilePath(PLAYERS_DATA_FILE), JsonConvert.SerializeObject(__Players));
+            var marksTask = File.WriteAllTextAsync(CreateFilePath(MARKS_DATA_FILE), JsonConvert.SerializeObject(__PlayersMarks));
+            var clansTask = File.WriteAllTextAsync(CreateFilePath(CLANS_DATA_FILE), JsonConvert.SerializeObject(__Clans));
+            await Task.WhenAll(playersTask, marksTask, clansTask);
         }
 
         private Stack<int> PlayerIDsToCheck;
@@ -86,10 +139,12 @@ namespace WGApiDataProvider
             int i = 0;
             while (true)
             {
+                if (i >= 5)
+                    StopAutoUpdate();
+
                 if (!DoRun)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                    continue;
+                    return;
                 }
 
                 Console.WriteLine($"doing run {i}");
@@ -115,7 +170,7 @@ namespace WGApiDataProvider
 
         public async Task LoadTanks(WGApiClient client)
         {
-            __Tanks = new Dictionary<int, Tank>();
+            __Tanks = new Dictionary<int, WGApi.Tank>();
             var vehicles = await client.GetVehiclesAsync();
             foreach (var kvp in vehicles)
                 __Tanks.Add(kvp.Key, new Tank(kvp.Key, kvp.Value));
@@ -141,7 +196,7 @@ namespace WGApiDataProvider
 
                 foreach (var moe in moes.Where(m => m.Mark == 3))
                 {
-                    var newMark = new Mark(player.AccountID, player.ClanID ?? 0, moe.TankID, DateTime.Now);
+                    var newMark = new Mark(player.AccountID, moe.TankID, DateTime.Now);
                     __TanksMarks.TryAdd(moe.TankID, new Dictionary<int, Mark>());
                     __TanksMarks[moe.TankID].TryAdd(player.AccountID, newMark);
 
