@@ -170,7 +170,7 @@ namespace WGApiDataProvider
 
         public async Task LoadTanks(WGApiClient client)
         {
-            __Tanks = new Dictionary<int, WGApi.Tank>();
+            __Tanks = new Dictionary<int, Tank>();
             var vehicles = await client.GetVehiclesAsync();
             foreach (var kvp in vehicles)
                 __Tanks.Add(kvp.Key, new Tank(kvp.Key, kvp.Value));
