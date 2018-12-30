@@ -34,7 +34,8 @@ module Views =
                        _type "text/css"
                        _href "/main.css" ]
             ]
-            body [] (navigation () :: content)
+            header [] [ navigation () ]
+            body [] content
             footer [] [
                 br []
                 hr []
