@@ -48,6 +48,11 @@ module Views =
             ]
         ]
 
+    let headlineBlock headerText = 
+        div [ _class "headline" ] [
+            encodedText headerText
+        ]
+
     let partial () =
         h1 [] [ encodedText "_3MoeSite" ]
 
@@ -123,7 +128,7 @@ module Views =
     let rootPage () =
         [
             div [] [
-                    h1 [] [ encodedText "3 Marks of Excellence Data" ]
+                    headlineBlock "3 Marks of Excellence Data"
                     p  [] [ encodedText "This website displays detailed information about players and clans with 3 Marks of Excellence on the EU server." ]
                     h2 [] [
                             a [ _href "/marks" ]
@@ -322,7 +327,7 @@ module Views =
 
     let tanksTable params =
         [
-            h1 [] [encodedText "Tanks" ]
+            headlineBlock "Tank Overview"
             data.Tanks |> tankDisplayTable params
         ] |> layout "Tanks"
 

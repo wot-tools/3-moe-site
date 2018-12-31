@@ -321,3 +321,10 @@ a {
 .imageTankType {
 	vertical-align: text-top;
 }
+
+.headline {
+	font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
