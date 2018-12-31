@@ -216,8 +216,8 @@ module Views =
             (fun t -> (linkWithImage (sprintf "/tier/%i" t.Tier) (string t.Tier) ""))
         createCustomColumn "Nation"       "nat"   (fun t -> E t.Nation)
             (fun t -> (linkWithImage (sprintf "/nation/%s" (string t.Nation)) (string t.Nation) ""))
-        createCustomColumn "Type"         "type"  (fun t -> E t.Type)
-            (fun t -> (linkWithImage (sprintf "/type/%s" (string t.Type)) (string t.Type) ""))
+        createCustomColumn "Type"         "type"  (fun t -> E t.VehicleType)
+            (fun t -> (linkWithImage (sprintf "/type/%s" (string t.VehicleType)) (string t.VehicleType) ""))
         ] : Tank Column List)
 
     let playerPage id =
@@ -357,7 +357,7 @@ module Views =
                         encodedText ", "
                         a [ _href (sprintf "/tiers/%i" tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
                         encodedText ", "
-                        a [ _href (sprintf "/type/%s" (string tank.Type)) ] [ encodedText (string tank.Type) ]
+                        a [ _href (sprintf "/type/%s" (string tank.VehicleType)) ] [ encodedText (string tank.VehicleType) ]
                         img [ _class "imageTankType" 
                               _src "" ]
                     ]
