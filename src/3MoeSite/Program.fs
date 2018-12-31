@@ -77,7 +77,7 @@ module Views =
         ] : Player Column list) params
 
         [
-            h1 [] [ encodedText "Players" ]
+            headlineBlock "Players"
             data.Players |> tableTemplate
         ] |> layout "Players"
 
@@ -93,7 +93,7 @@ module Views =
         ] : Mark Column List) params
 
         [
-            h1 [] [ encodedText "Marky Marks" ]
+            headlineBlock "Marky Marks"
             data.Marks |> tableTemplate
         ] |> layout "Marky Marks"
 
@@ -111,7 +111,7 @@ module Views =
         ] : Clan Column List) params
 
         [
-            h1 [] [ encodedText "Clans" ]
+            headlineBlock "Clans"
             data.Clans |> tableTemplate
         ] |> layout "Clans"
 
