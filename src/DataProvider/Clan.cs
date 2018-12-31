@@ -17,13 +17,13 @@ namespace WGApiDataProvider
         public readonly DateTime TrackingStarted;
         public readonly DateTime LastChecked;
         
-        [Newtonsoft.Json.JsonConstructor]
-        public Clan(int id, string name, string tag, int members, int threeMoe, int moeRating, int updatedWG, int createdAt, int trackingStarted, int lastChecked)
+        public Clan(int id, string name, string tag, int members, int threeMoe, double moeRating, int updatedWG, int createdAt, int trackingStarted, int lastChecked)
             : this(id, name, tag, members, threeMoe, moeRating, WGApi.EpochDateTime.FromEpoch(updatedWG), WGApi.EpochDateTime.FromEpoch(createdAt), WGApi.EpochDateTime.FromEpoch(trackingStarted), WGApi.EpochDateTime.FromEpoch(lastChecked))
         {
         }
 
-        public Clan(int id, string name, string tag, int members, int threeMoe, int moeRating, DateTime updatedWG, DateTime createdAt, DateTime trackingStarted, DateTime lastChecked)
+        [Newtonsoft.Json.JsonConstructor]
+        public Clan(int id, string name, string tag, int members, int threeMoe, double moeRating, DateTime updatedWG, DateTime createdAt, DateTime trackingStarted, DateTime lastChecked)
         {
             ID = id;
             Name = name;
