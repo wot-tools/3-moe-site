@@ -64,7 +64,7 @@ module Views =
                 (fun p -> a [ _href (sprintf "/clan/%i" p.Clan.ID) ] [ encodedText p.Clan.Name ])
             createColumn "3 MoE"            "moe"       (fun p -> I p.ThreeMoeCount)
             createColumn "Battles"          "battles"   (fun p -> I p.BattleCount)
-            createColumn "Win ratio"        "wr"        (fun p -> M p.WinRatio)
+            createColumn "Win ratio"        "wr"        (fun p -> Perc p.WinRatio)
             createColumn "WN8"              "wn8"       (fun p -> D p.Wn8)
             createColumn "MoE Rating"       "moer"      (fun p -> D p.MoeRating)
             createColumn "WG Rating"        "wgr"       (fun p -> I p.WgRating)

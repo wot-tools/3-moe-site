@@ -16,6 +16,7 @@ type TableCellObject =
     | T of DateTime
     | E of Enum
     | Img of string
+    | Perc of decimal
 
 let printCellObject (o : TableCellObject) =
     match o with
@@ -26,6 +27,7 @@ let printCellObject (o : TableCellObject) =
     | T t -> encodedText (string t)
     | E e -> encodedText (string e)
     | Img i -> img [ _src i]
+    | Perc p -> encodedText (System.String.Format("{0:P2}", p))
 
 type 'T Column =
     {
