@@ -15,15 +15,17 @@ type TableCellObject =
     | D of double
     | T of DateTime
     | E of Enum
+    | Img of string
 
 let printCellObject (o : TableCellObject) =
     match o with
-    | S s -> s
-    | I i -> string i
-    | M m -> string m
-    | D d -> string d
-    | T t -> string t
-    | E e -> string e
+    | S s -> encodedText s
+    | I i -> encodedText (string i)
+    | M m -> encodedText (string m)
+    | D d -> encodedText (string d)
+    | T t -> encodedText (string t)
+    | E e -> encodedText (string e)
+    | Img i -> img [ _src i]
 
 type 'T Column =
     {
@@ -106,7 +108,7 @@ let customTable ( columns : Column<'a> list ) ( params : TableParams ) ( objects
             (sortAndFilter columns params objects |> List.map 
                 (fun o -> columns |> List.map (fun c ->
                     [(match c.customContent with
-                     | None -> o |> c.selector |> printCellObject |> encodedText
+                     | None -> o |> c.selector |> printCellObject
                      | Some f -> f o)] |> td []) |> tr []))
 
     table [] [
