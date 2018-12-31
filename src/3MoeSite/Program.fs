@@ -207,8 +207,10 @@ module Views =
         | F f -> System.String.Format("{0:N0}", f)
 
     let tankDisplayTable = customTable ([
+        createColumn "Contour" "contour" (fun t -> Img t.Icons.Contour)
         createCustomColumn "Name"         "name"  (fun t -> S t.Name)
-            (fun t -> (linkWithImage (sprintf "/tank/%i" t.ID) t.Name ""))
+            (fun t -> (a [ _href (sprintf "/tank/%i" t.ID) ] [
+                            encodedText t.Name ]))
         createColumn "Short Name"   "sn"    (fun t -> S t.ShortName)
         createColumn "3 MoE"        "moe"   (fun t -> TableCellObject.I t.ThreeMoeCount)
         createColumn "MoE Value"    "moev"  (fun t -> TableCellObject.D t.MoeValue)
