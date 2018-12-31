@@ -43,7 +43,7 @@ let createColumn name sortName selector =
 let createCustomColumn name sortName selector customContent =
     { name = name; sortName = sortName; selector = selector; customContent = Some customContent }
 
-let pageSize = 10
+let pageSize = 25
 
 let _compare prop objs =
     let o1, o2 = objs 
