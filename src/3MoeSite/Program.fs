@@ -331,27 +331,29 @@ module Views =
             [
                 div [ _class "tankInfoBlock" ] [
                     div [ _class "tankImageDiv" ] [
-                        img [ _src "" ]
+                        img [ _src tank.Icons.Big ]
                     ]
-                    div [ _class "tankName" ] [
-                        encodedText tank.Name
-                    ]
-                    div [ _class "moeCount" ] [
-                        img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
-                              _class "image3moeTank imageAlignBottom" ]
-                        encodedText (System.String.Format("{0:N0}", tank.ThreeMoeCount))
-                    ]
-                    div [] [
-                        img [ _class "imageNation" 
-                              _src "" ]
-                        a [ _href (sprintf "/nation/%s" (string tank.Nation)) ] [ encodedText (string tank.Nation) ]
-                        encodedText ", "
-                        a [ _href (sprintf "/tiers/%i" tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
-                        encodedText ", "
-                        a [ _href (sprintf "/type/%s" (string tank.VehicleType)) ] [ encodedText (string tank.VehicleType) ]
-                        img [ _class "imageTankType" 
-                              _src "" ]
-                    ]
+                    div [ _class "tankDataDiv" ] [
+                        div [ _class "tankName" ] [
+                            encodedText tank.Name
+                        ]
+                        div [ _class "moeCount" ] [
+                            img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
+                                  _class "image3moeTank imageAlignBottom" ]
+                            encodedText (System.String.Format("{0:N0}", tank.ThreeMoeCount))
+                        ]
+                        div [] [
+                            img [ _class "imageNation" 
+                                  _src "" ]
+                            a [ _href (sprintf "/nation/%s" (string tank.Nation)) ] [ encodedText (string tank.Nation) ]
+                            encodedText ", "
+                            a [ _href (sprintf "/tiers/%i" tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
+                            encodedText ", "
+                            a [ _href (sprintf "/type/%s" (string tank.VehicleType)) ] [ encodedText (string tank.VehicleType) ]
+                            img [ _class "imageTankType" 
+                                  _src "" ]
+                        ]
+                    ]                    
                 ]
             ] |> layout tank.Name
 
