@@ -55,9 +55,6 @@ module Views =
             encodedText headerText
         ]
 
-    let partial () =
-        h1 [] [ encodedText "_3MoeSite" ]
-
     let playersTable params =
         let tableTemplate = customTable ([
             createCustomColumn "Name"       "name"      (fun p -> S p.Name)
@@ -116,16 +113,6 @@ module Views =
             headlineBlock "Clans"
             data.Clans |> tableTemplate
         ] |> layout "Clans"
-
-    let foo () =
-        div [ _class "foo"] [
-            table [] [
-                [1 .. 5] |> List.map (fun i -> [i |> string |> encodedText] |> td []) |> tr []
-            ]
-            a [ _href "https://www.google.com/"
-                _target "blank"
-            ] [encodedText "click for google"]
-        ]
 
     let rootPage () =
         [
@@ -368,22 +355,9 @@ module Views =
                 ]
             ] |> layout tank.Name
 
-    let index (model : Message) =
-        [
-            partial()
-            p [] [ encodedText model.Text ]
-            foo()
-        ] |> layout "Index"
-
 // ---------------------------------
 // Web app
 // ---------------------------------
-
-let indexHandler (name : string) =
-    let greetings = sprintf "Hello %s, from Giraffe!" name
-    let model     = { Text = greetings }
-    let view      = Views.index model
-    htmlView view
 
 let rootHandler =
     htmlView (Views.rootPage())
