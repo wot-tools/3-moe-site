@@ -245,7 +245,7 @@ module Views =
                                 linkWithImage (sprintf "http://wotlabs.net/eu/player/%s" player.Name) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                             ]
                         ]
-                        div [ _class "clanInfoDiv" ] [
+                        div [ _class (sprintf "clanInfoDiv %s" (if player.Clan.ID = 0 then "hidden" else "" )) ] [
                             img [ _src (System.String.Format("https://eu.wargaming.net/clans/media/clans/emblems/cl_335/{0}/emblem_32x32.png", player.Clan.ID)) 
                                   _class "clanIcon" ]
                             span [ _class "clanTag" ] [ 

@@ -34,6 +34,10 @@ a {
   margin-top: 50px;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
