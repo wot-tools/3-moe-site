@@ -21,9 +21,9 @@ type TableCellObject =
 let printCellObject (o : TableCellObject) =
     match o with
     | S s -> encodedText s
-    | I i -> encodedText (string i)
+    | I i -> encodedText (System.String.Format("{0:N0}", i))
     | M m -> encodedText (string m)
-    | D d -> encodedText (string d)
+    | D d -> encodedText (System.String.Format("{0:N0}", d))
     | T t -> encodedText (string t)
     | E e -> encodedText (string e)
     | Img i -> img [ _src i]
