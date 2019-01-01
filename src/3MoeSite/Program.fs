@@ -59,8 +59,8 @@ module Views =
         let tableTemplate = customTable ([
             createCustomColumn "Name"       "name"      (fun p -> S p.Name)
                 (fun p -> a [ _href (sprintf "/player/%i" p.ID) ] [ encodedText p.Name ])
-            createCustomColumn "Clan"       "clan"      (fun p -> S (string p.Clan))
-                (fun p -> a [ _href (sprintf "/clan/%i" p.Clan.ID) ] [ encodedText p.Clan.Name ])
+            createCustomColumn "Clan"       "clan"      (fun p -> S (string p.Clan.Tag))
+                (fun p -> a [ _href (sprintf "/clan/%i" p.Clan.ID) ] [ encodedText p.Clan.Tag ])
             createColumn "3 MoE"            "moe"       (fun p -> I p.ThreeMoeCount)
             createColumn "Battles"          "battles"   (fun p -> I p.BattleCount)
             createColumn "Win ratio"        "wr"        (fun p -> Perc p.WinRatio)
