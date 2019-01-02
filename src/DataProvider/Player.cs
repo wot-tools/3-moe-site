@@ -124,6 +124,7 @@ namespace WGApiDataProvider
             LastBattle = player.LastBattle;
             LastLogout = player.LastLogout;
             AccountCreated = player.AccountCreated;
+            LastWgUpdate = player.UpdatedAt;
             LastChecked = DateTime.Now;
         }
     }
