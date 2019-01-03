@@ -137,29 +137,29 @@ module Views =
 
     let getWn8CssClass (wn8 : float) =
         match wn8 with
-        | i when i < 300.0 -> "cVeryBad"
-        | i when i < 450.0 -> "cBad"
-        | i when i < 650.0 -> "cBelowAverage"
-        | i when i < 900.0 -> "cAverage"
-        | i when i < 1200.0 -> "cAboveAverage"
-        | i when i < 1600.0 -> "cGood"
-        | i when i < 2000.0 -> "cVeryGood"
-        | i when i < 2450.0 -> "cGreat"
-        | i when i < 2900.0 -> "cUnicum"
-        | i -> "cSuperUnicum"
+        | _ when wn8 < 300.0 -> "cVeryBad"
+        | _ when wn8 < 450.0 -> "cBad"
+        | _ when wn8 < 650.0 -> "cBelowAverage"
+        | _ when wn8 < 900.0 -> "cAverage"
+        | _ when wn8 < 1200.0 -> "cAboveAverage"
+        | _ when wn8 < 1600.0 -> "cGood"
+        | _ when wn8 < 2000.0 -> "cVeryGood"
+        | _ when wn8 < 2450.0 -> "cGreat"
+        | _ when wn8 < 2900.0 -> "cUnicum"
+        | _ -> "cSuperUnicum"
 
     let getWinratioCssClass (winratio : decimal) =
         match winratio with
-        | i when i < 0.46m -> "cVeryBad"
-        | i when i < 0.47m -> "cBad"
-        | i when i < 0.48m -> "cBelowAverage"
-        | i when i < 0.50m -> "cAverage"
-        | i when i < 0.52m -> "cAboveAverage"
-        | i when i < 0.54m -> "cGood"
-        | i when i < 0.56m -> "cVeryGood"
-        | i when i < 0.60m -> "cGreat"
-        | i when i < 0.65m -> "cUnicum"
-        | i -> "cSuperUnicum" 
+        | _ when winratio < 0.46m -> "cVeryBad"
+        | _ when winratio < 0.47m -> "cBad"
+        | _ when winratio < 0.48m -> "cBelowAverage"
+        | _ when winratio < 0.50m -> "cAverage"
+        | _ when winratio < 0.52m -> "cAboveAverage"
+        | _ when winratio < 0.54m -> "cGood"
+        | _ when winratio < 0.56m -> "cVeryGood"
+        | _ when winratio < 0.60m -> "cGreat"
+        | _ when winratio < 0.65m -> "cUnicum"
+        | _ -> "cSuperUnicum" 
 
     let errorBlock errorText = 
         [
