@@ -13,7 +13,6 @@ open _3MoeSite.Views
 open System.Globalization
 open WGApiDataProvider
 open Microsoft.EntityFrameworkCore.Diagnostics
-open Giraffe
 
 // ---------------------------------
 // Views
@@ -365,8 +364,8 @@ module Views =
 let rootHandler =
     htmlView (Views.rootPage())
 
-let playerHandler (id : int, params : TableParams) =
-    Views.playerPage id params
+let playerHandler (id : int) (params : TableParams) =
+    htmlView (Views.playerPage id params)
 
 let clanHandler (id : int) =
     htmlView (Views.clanPage id)
@@ -380,16 +379,16 @@ let tableBinding (viewFunc : TableParams -> GiraffeViewEngine.XmlNode) defaultPa
         (Some CultureInfo.InvariantCulture)
         (viewFunc >> htmlView)
 
-let combinedHandler (view : int * TableParams -> GiraffeViewEngine.XmlNode) (id : int) : HttpHandler =
+let combinedHandler viewFunc defaultParams (id : int) : HttpHandler =
     fun (next : HttpFunc) (ctx : Microsoft.AspNetCore.Http.HttpContext) ->
         FSharp.Control.Tasks.ContextSensitive.task {
             let! result = ctx.TryBindFormAsync<TableParams> CultureInfo.InvariantCulture
 
-            let res = match result with
-            | Error err -> htmlView (GiraffeViewEngine.encodedText err)
-            | Ok params -> htmlView (view (id, params))
+            let finalParams = match result with
+                                | Error err -> defaultParams
+                                | Ok params -> params
             
-            return! res next ctx
+            return! viewFunc id finalParams next ctx
         }
 
 let webApp =
@@ -397,7 +396,7 @@ let webApp =
         GET >=>
             choose [
                 route "/" >=> rootHandler
-                routef "/player/%i" (fun id -> combinedHandler playerHandler id)
+                routef "/player/%i" (combinedHandler playerHandler { sort = "moer"; direction = "desc"; page = 1 })
                 routef "/clan/%i" clanHandler
                 routef "/tank/%i" tankHandler
                 route "/players" >=> tableBinding Views.playersTable { sort = "moer"; direction = "desc"; page = 1 }
