@@ -13,6 +13,7 @@ open _3MoeSite.Views
 open System.Globalization
 open WGApiDataProvider
 open Microsoft.EntityFrameworkCore.Diagnostics
+open Giraffe
 
 // ---------------------------------
 // Views
@@ -211,7 +212,7 @@ module Views =
             (fun t -> (linkWithImage (sprintf "/type/%s" (string t.VehicleType)) (string t.VehicleType) ""))
         ] : Tank Column List)
 
-    let playerPage id =
+    let playerPage (id : int) (params : TableParams) =
         let (success, player) = data._Players.TryGetValue id
 
         let statBlockColoredBackground (value : StatValueObject) (title : string) (colorClass : string)= 
@@ -364,8 +365,8 @@ module Views =
 let rootHandler =
     htmlView (Views.rootPage())
 
-let playerHandler (id : int) =
-    htmlView (Views.playerPage id)
+let playerHandler (id : int, params : TableParams) =
+    Views.playerPage id params
 
 let clanHandler (id : int) =
     htmlView (Views.clanPage id)
@@ -379,12 +380,24 @@ let tableBinding (viewFunc : TableParams -> GiraffeViewEngine.XmlNode) defaultPa
         (Some CultureInfo.InvariantCulture)
         (viewFunc >> htmlView)
 
+let combinedHandler (view : int * TableParams -> GiraffeViewEngine.XmlNode) (id : int) : HttpHandler =
+    fun (next : HttpFunc) (ctx : Microsoft.AspNetCore.Http.HttpContext) ->
+        FSharp.Control.Tasks.ContextSensitive.task {
+            let! result = ctx.TryBindFormAsync<TableParams> CultureInfo.InvariantCulture
+
+            let res = match result with
+            | Error err -> htmlView (GiraffeViewEngine.encodedText err)
+            | Ok params -> htmlView (view (id, params))
+            
+            return! res next ctx
+        }
+
 let webApp =
     choose [
         GET >=>
             choose [
                 route "/" >=> rootHandler
-                routef "/player/%i" playerHandler
+                routef "/player/%i" (fun id -> combinedHandler playerHandler id)
                 routef "/clan/%i" clanHandler
                 routef "/tank/%i" tankHandler
                 route "/players" >=> tableBinding Views.playersTable { sort = "moer"; direction = "desc"; page = 1 }
