@@ -275,6 +275,21 @@ module Views =
                         dateBlock player.LastWgUpdate "Last update (WG)"
                     ]
                 ]
+                data._PlayersMarks.[player.ID].Values |> Seq.toArray |> customTable ([
+                    createColumn "Contour" "contour" (fun m -> Img m.Tank.Icons.Contour)
+                    createCustomColumn "Tank"         "tank"  (fun m -> S m.Tank.Name)
+                        (fun m -> (a [ _href (sprintf "/tank/%i" m.Tank.ID) ] [
+                                        encodedText m.Tank.Name ]))
+                    createColumn "First detected"   "firstDetection"    (fun m -> T m.FirstDetected)
+                    createColumn "3 MoE"        "moe"   (fun m -> TableCellObject.I m.Tank.ThreeMoeCount)
+                    createColumn "MoE Value"    "moev"  (fun m -> TableCellObject.D m.Tank.MoeValue)
+                    createCustomColumn "Tier"         "tier"  (fun m -> TableCellObject.I m.Tank.Tier)
+                        (fun m -> (linkWithImage (sprintf "/tier/%i" m.Tank.Tier) (string m.Tank.Tier) ""))
+                    createCustomColumn "Nation"       "nat"   (fun m -> E m.Tank.Nation)
+                        (fun m -> (linkWithImage (sprintf "/nation/%s" (string m.Tank.Nation)) (string m.Tank.Nation) ""))
+                    createCustomColumn "Type"         "type"  (fun m -> E m.Tank.VehicleType)
+                        (fun m -> (linkWithImage (sprintf "/type/%s" (string m.Tank.VehicleType)) (string m.Tank.VehicleType) ""))
+                    ] : Mark Column List) params
             ] |> layout player.Name
 
     let clanPage id =
@@ -396,7 +411,7 @@ let webApp =
         GET >=>
             choose [
                 route "/" >=> rootHandler
-                routef "/player/%i" (combinedHandler playerHandler { sort = "moer"; direction = "desc"; page = 1 })
+                routef "/player/%i" (combinedHandler playerHandler { sort = "firstDetection"; direction = "desc"; page = 1 })
                 routef "/clan/%i" clanHandler
                 routef "/tank/%i" tankHandler
                 route "/players" >=> tableBinding Views.playersTable { sort = "moer"; direction = "desc"; page = 1 }
