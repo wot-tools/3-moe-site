@@ -382,7 +382,7 @@ let tableBinding (viewFunc : TableParams -> GiraffeViewEngine.XmlNode) defaultPa
 let combinedHandler viewFunc defaultParams (id : int) : HttpHandler =
     fun (next : HttpFunc) (ctx : Microsoft.AspNetCore.Http.HttpContext) ->
         FSharp.Control.Tasks.ContextSensitive.task {
-            let! result = ctx.TryBindFormAsync<TableParams> CultureInfo.InvariantCulture
+            let result = ctx.TryBindQueryString<TableParams> CultureInfo.InvariantCulture
 
             let finalParams = match result with
                                 | Error err -> defaultParams
