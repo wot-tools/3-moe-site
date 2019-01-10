@@ -13,7 +13,7 @@ namespace WGApiDataProvider
     {
         private readonly WGApiClient Client;
 
-        private static object InstanceLock = new object();
+        private static readonly object InstanceLock = new object();
         private static WGApiDataProvider _Instance;
         public static WGApiDataProvider Instance
         {
@@ -56,11 +56,14 @@ namespace WGApiDataProvider
 
             Client = new WGApiClient("https://api.worldoftanks", Region.eu, "insert key here, cause I'm lazy", new Logger());
 
-            var idsTask = LoadIDs("ids_EU.txt");
-            var previousStateTask = TryLoad();
-            var tanksTask = LoadTanks(Client);
+            var setupTasks = new List<Task>()
+            {
+                LoadIDs("ids_EU.txt"),
+                TryLoad(),
+                LoadTanks(Client),
+            };
 
-            Task.WaitAll(idsTask, previousStateTask, tanksTask);
+            Task.WaitAll(setupTasks.ToArray());
 
             StartAutoUpdate();
 
@@ -134,7 +137,7 @@ namespace WGApiDataProvider
         private List<int> ClanIDsToCheck = new List<int>();
         private bool DoRun = true;
 
-        public async Task UpdateLoop()
+        private async Task UpdateLoop()
         {
             int i = 0;
             while (true)
