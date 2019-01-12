@@ -206,7 +206,7 @@ module Views =
         createCustomColumn "Tier"         "tier"  (fun t -> TableCellObject.I t.Tier)
             (fun t -> (linkWithImage (sprintf "/tier/%i" t.Tier) (string t.Tier) ""))
         createCustomColumn "Nation"       "nat"   (fun t -> E t.Nation)
-            (fun t -> (linkWithImage (sprintf "/nation/%s" (string t.Nation)) (string t.Nation) ""))
+            (fun t -> (linkWithImage (sprintf "/nation/%s" (string t.Nation)) (string t.Nation) (sprintf "https://eu-wotp.wgcdn.co/static/5.32.1_0d6e8f/wotp_static/img/core/frontend/scss/common/components/icons/img/filter-%s.png" ((string t.Nation).ToLower()))))
         createCustomColumn "Type"         "type"  (fun t -> E t.VehicleType)
             (fun t -> (linkWithImage (sprintf "/type/%s" (string t.VehicleType)) (string t.VehicleType) ""))
         ] : Tank Column List)
