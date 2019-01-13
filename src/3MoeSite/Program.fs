@@ -237,8 +237,10 @@ module Views =
                                 encodedText player.Name
                                 img [ _src (sprintf "/img/flags/%s.png" player.ClientLanguage) ]
                             ]
-                            div [ _class "moeCount" ] [
-                                encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))
+                            div [ _class "moeCount"] [
+                            img [ _src "/img/3stars.png" 
+                                  _class "image3moe" ]
+                            encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))
                             ]
                             div [ _class "playerLinkDiv"] [
                                 linkWithImage (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID) "WG Profile " "http://eu.wargaming.net/favicon.ico"
@@ -316,8 +318,8 @@ module Views =
                             encodedText clan.Tag
                         ]
                         div [ _class "moeCount"] [
-                            img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
-                                  _class "image3moe imageAlignBottom" ]
+                            img [ _src "/img/3stars.png" 
+                                  _class "image3moe" ]
                             encodedText (System.String.Format("{0:N0}", clan.ThreeMoe))
                         ]
                         div [] [ encodedText (sprintf "%i Members" clan.Members) ]
@@ -357,8 +359,8 @@ module Views =
                             encodedText tank.Name
                         ]
                         div [ _class "moeCount" ] [
-                            img [ _src "https://dav-static.worldoftanks.eu//ptlwoteu/wot/current/marksOnGun/67x71/china_3_marks.png" 
-                                  _class "image3moeTank imageAlignBottom" ]
+                            img [ _src "/img/3stars.png" 
+                                  _class "image3moe" ]
                             encodedText (System.String.Format("{0:N0}", tank.ThreeMoeCount))
                         ]
                         div [] [
