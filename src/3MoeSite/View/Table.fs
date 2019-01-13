@@ -1,4 +1,4 @@
-﻿[<AutoOpen>]
+[<AutoOpen>]
 module _3MoeSite.Views.Table
 open Giraffe.GiraffeViewEngine
 open _3MoeSite.Model
@@ -17,6 +17,7 @@ type TableCellObject =
     | E of Enum
     | Img of string
     | Perc of decimal
+    | Flag of string
 
 let printCellObject (o : TableCellObject) =
     match o with
@@ -28,6 +29,8 @@ let printCellObject (o : TableCellObject) =
     | E e -> encodedText (string e)
     | Img i -> img [ _src i]
     | Perc p -> encodedText (System.String.Format("{0:P2}", p))
+    | Flag f -> img [ _src (sprintf "/img/flags/%s.png" f)
+                      _class "flagIcon" ]
 
 type 'T Column =
     {

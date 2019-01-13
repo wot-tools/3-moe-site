@@ -67,7 +67,7 @@ module Views =
             createColumn "WN8"              "wn8"       (fun p -> D p.Wn8)
             createColumn "MoE Rating"       "moer"      (fun p -> D p.MoeRating)
             createColumn "WG Rating"        "wgr"       (fun p -> I p.WgRating)
-            createColumn "Client language"  "lang"      (fun p -> S p.ClientLanguage)
+            createColumn "Client language"  "lang"      (fun p -> Flag p.ClientLanguage)
             createColumn "Last battle"      "lbatt"     (fun p -> T p.LastBattle)
             createColumn "Last logout"      "llog"      (fun p -> T p.LastLogout)
             createColumn "Account created"  "created"   (fun p -> T p.AccountCreated)
@@ -235,7 +235,7 @@ module Views =
                         div [ _class "playerInfoDiv"] [
                             div [ _class "playerName" ] [
                                 encodedText player.Name
-                                encodedText player.ClientLanguage
+                                img [ _src (sprintf "/img/flags/%s.png" player.ClientLanguage) ]
                             ]
                             div [ _class "moeCount" ] [
                                 encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))

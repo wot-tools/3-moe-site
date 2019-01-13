@@ -84,6 +84,11 @@ tr:hover {
   background-color: #DFD8F3;
 }
 
+.flagIcon {
+    height: 11px;
+    width: 16px;
+}
+
 .headerNavigationBar {
   width: 100%;
   list-style-type: none;
@@ -227,6 +232,11 @@ tr:hover {
 .playerName {
   font-size: 26px;
 }
+
+  .playerName img {
+      margin-left: 3px;
+      border: 1px black solid;
+  }
 
 .playerLinkDiv {
   margin-top: 6px
