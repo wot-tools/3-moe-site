@@ -113,10 +113,8 @@ tr:hover {
   background: #865DAD;
   /*font-family: 'Ubuntu Condensed', sans-serif;*/
   font-size: 14px;
-  font-weight: 500;
   font-style: normal;
   font-weight: bold;
-  color: #FFFFFF;
 }
 
 .headerButton a:hover, .headerButton a:focus {
