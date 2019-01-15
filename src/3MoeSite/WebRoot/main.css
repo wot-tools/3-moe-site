@@ -251,16 +251,13 @@ tr:hover {
   float: left;
 }
 
-  .clanInfoDiv img {
-    vertical-align: text-top;
-  }
-
   .clanInfoDiv a {
     text-decoration: none;
   }
 
   .clanInfoDiv span {
     font-size: 22px;
+    margin-left: 6px;
   }
 
 .clanLinkDiv {

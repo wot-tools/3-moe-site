@@ -248,7 +248,7 @@ module Views =
                             ]
                         ]
                         div [ _class (sprintf "clanInfoDiv %s" (if player.Clan.ID = 0 then "hidden" else "" )) ] [
-                            img [ _src (System.String.Format("https://eu.wargaming.net/clans/media/clans/emblems/cl_335/{0}/emblem_32x32.png", player.Clan.ID)) 
+                            img [ _src player.Clan.Emblems.x32.Portal  
                                   _class "clanIcon" ]
                             span [ _class "clanTag" ] [ 
                                     a [ _href (sprintf "/clan/%i" player.Clan.ID)
@@ -308,7 +308,7 @@ module Views =
                 div [ _class "clanInfoBlock"] [
                     div [ _class "clanImageDiv" ] [
                         img [ _class "clanImage" 
-                              _src ""]
+                              _src clan.Emblems.x195.Portal ]
                     ]
                     div [ _class "clanInfoWrapper" ] [
                         div [ _class "clanName" ] [

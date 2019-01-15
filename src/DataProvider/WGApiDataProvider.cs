@@ -218,7 +218,7 @@ namespace WGApiDataProvider
                 var trackingStarted = DateTime.Now;
                 if (__Clans.TryGetValue(clan.ID, out Clan old))
                     trackingStarted = old.TrackingStarted;
-                __Clans[clan.ID] = new Clan(clan.ID, clan.Name, clan.Tag, -1, -1, -1, clan.UpdatedAt, clan.CreatedAt, trackingStarted, DateTime.Now);
+                __Clans[clan.ID] = new Clan(clan.ID, clan.Name, clan.Tag, -1, -1, -1, clan.UpdatedAt, clan.CreatedAt, trackingStarted, DateTime.Now, clan.Emblems);
             }
         }
     }

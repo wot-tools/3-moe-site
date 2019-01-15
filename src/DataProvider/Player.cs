@@ -12,7 +12,7 @@ namespace WGApiDataProvider
         public readonly string Name;
 
         private readonly int ClanID;
-        private static Clan EmptyClan = new Clan(0, String.Empty, String.Empty, 0, 0, 0, 0, 0, 0, 0);
+        private static Clan EmptyClan = new Clan(0, String.Empty, String.Empty, 0, 0, 0, 0, 0, 0, 0, new WGApi.ClanEmblems());
         [JsonIgnore]
         public Clan Clan
         {
