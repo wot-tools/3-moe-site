@@ -114,6 +114,17 @@ module Views =
             data.Clans |> tableTemplate
         ] |> layout "Clans"
 
+    let tiersTable params =
+        let tableTemplate = customTable ([
+            createCustomColumn "Tier"       "tier"      (fun p -> I p)
+                (fun p -> a [ _href (sprintf "/tier/%i" p) ] [ encodedText (sprintf "%i" p)])
+            ] : int Column list) params
+        
+        [
+            headlineBlock "Tiers"
+            [| 1 .. 10|] |> tableTemplate
+        ] |> layout "Tiers"
+
     let rootPage () =
         [
             div [] [
@@ -378,6 +389,17 @@ module Views =
                 ]
             ] |> layout tank.Name
 
+
+    let tierPage (id : int) (params : TableParams) = 
+        let success = id > 0 && id < 11
+
+        match success with
+        | false -> errorBlock(sprintf "Tier %i is not valid. It has to be between 1 and 10" id)
+        | true ->
+            [
+                headlineBlock (sprintf "Tier %i tanks" id)
+                data.Tanks |> Array.where(fun t -> t.Tier = id) |> tankDisplayTable params
+            ] |> layout (sprintf "Tier %i" id)
 // ---------------------------------
 // Web app
 // ---------------------------------
@@ -393,6 +415,9 @@ let clanHandler (id : int) =
 
 let tankHandler (id : int) =
     htmlView (Views.tankPage id)
+
+let tierHandler (id : int) (params :  TableParams) =
+    htmlView (Views.tierPage id params)
 
 let tableBinding (viewFunc : TableParams -> GiraffeViewEngine.XmlNode) defaultParams =
     tryBindQuery<TableParams>
@@ -424,6 +449,8 @@ let webApp =
                 route "/marks"   >=> tableBinding Views.marksTable { sort = "det"; direction = "desc"; page = 1 }
                 route "/clans"   >=> tableBinding Views.clansTable { sort = "moe"; direction = "desc"; page = 1 }
                 route "/tanks"   >=> tableBinding Views.tanksTable { sort = "moe"; direction = "asc"; page = 1 }
+                routef "/tier/%i" (combinedHandler tierHandler { sort = "moe"; direction = "asc"; page = 1 })
+                route "/tiers"  >=> tableBinding Views.tiersTable { sort = "tier"; direction = "desc"; page = 1 }
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
