@@ -16,8 +16,19 @@
 
   <ItemGroup>
     <Compile Include="Model\GeneralModel.fs" />
-    <Compile Include="View\Table.fs" />
+    <Compile Include="View\Css.fs" />
     <Compile Include="View\Navigation.fs" />
+    <Compile Include="View\Layout.fs" />
+    <Compile Include="View\Table.fs" />
+    <Compile Include="View\Shared.fs" />
+    <Compile Include="View\Clan.fs" />
+    <Compile Include="View\Player.fs" />
+    <Compile Include="View\Mark.fs" />
+    <Compile Include="View\Nation.fs" />
+    <Compile Include="View\Root.fs" />
+    <Compile Include="View\Tank.fs" />
+    <Compile Include="View\Tier.fs" />
+    <Compile Include="View\VehicleType.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
