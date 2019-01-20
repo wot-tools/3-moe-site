@@ -95,17 +95,48 @@ let customTable ( columns : Column<'a> list ) ( params : TableParams ) ( objects
                 (columns |> List.map createHeaderCol)
         ]
 
-    let footer() =
+    let pagination() =
         let maxPage = double objects.Length / double pageSize |> Math.Ceiling |> int
         let pages current = [(max 1 (current - 5)) .. min (current + 5) maxPage]
         let selectablePages() = List.append (1 :: pages params.page) [maxPage] |> List.distinct
 
-        tfoot [] [
-            tr [] [
-                td [ _colspan "100%" ] // crossbrowser way of spanning all columns
-                    (selectablePages() |> List.map (fun i -> a [ _href (linkParamTemplate params.sort params.direction i)
-                                                                 _class "pageSelect"] [ i |> sprintf "%i" |> encodedText ]) )
-            ]
+        match (maxPage) with
+        | 1 -> div [] []
+        | _ -> div [ _class "paginationContainer" ] [
+            (if params.page > 1 then
+                a [ _class "paginationFirst"
+                    _href (linkParamTemplate params.sort params.direction 1) ] [
+                    encodedText "Frist" ]
+            else
+                span [ _class "paginationFirst paginationDisabled" ] [ encodedText "First" ])
+
+            (if params.page > 1 then
+                a [ _class "paginationPreviousPage"
+                    _href (linkParamTemplate params.sort params.direction (params.page - 1)) ] [
+                encodedText "←" ]
+            else
+                span [ _class "paginationPreviousPage paginationDisabled" ] [ encodedText "←" ])
+            
+
+            div [ _class "paginationPages" ] ((pages params.page) |> List.map (fun i -> a [ _href (linkParamTemplate params.sort params.direction i)
+                                                                                            _class (sprintf "pagionationPageSelect %s" (if i = params.page then "paginationCurrent" else "")) ] [ 
+                                                                                                i |> sprintf "%i" |> encodedText ]))
+
+            (if params.page < maxPage then
+                a [ _class "paginationNextPage"
+                    _href (linkParamTemplate params.sort params.direction (params.page + 1)) ] [
+                encodedText "→" ]
+            else
+                span [ _class "paginationNextPage paginationDisabled" ] [ encodedText "→" ])
+
+            (if params.page < maxPage then
+                a [ _class "paginationLast"
+                    _href (linkParamTemplate params.sort params.direction maxPage) ] [
+                encodedText "Last" ]
+            else
+                span [ _class "paginationLast paginationDisabled" ] [ encodedText "Last" ])
+            
+            
         ]
         
     let body() =
@@ -116,8 +147,11 @@ let customTable ( columns : Column<'a> list ) ( params : TableParams ) ( objects
                      | None -> o |> c.selector |> printCellObject
                      | Some f -> f o)] |> td []) |> tr []))
 
-    table [] [
-        header()
-        footer()
-        body()
+    div [] [
+        pagination()
+        table [] [
+            header()
+            body()
+        ]
+        pagination()
     ]

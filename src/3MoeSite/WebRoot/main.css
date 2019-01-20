@@ -405,3 +405,80 @@ tr:hover {
   margin-bottom: 5px;
   font-weight: bold;
 }
+
+.paginationFirst {
+    padding: 2px 3px 2px 3px;
+    border: 1px solid;
+    margin-right: 6px;
+}
+
+.paginationPreviousPage {
+    padding: 2px;
+    border: 1px solid;
+    margin-right: 3px;
+}
+
+.paginationPages {
+    display: inline-block;
+}
+
+.paginationContainer {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    background: white;
+}
+
+    .paginationContainer a {
+        border: 1px solid #AF9DE0;
+        min-width: 20px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .paginationContainer a:hover {
+        color: #230033;
+        background: #A775FF;
+        border-color: #230033;
+    }
+
+    .paginationContainer a:focus {
+        color: #230033;
+        background: #A775FF;
+        border-color: #230033;
+    }
+
+    .paginationContainer span {
+        min-width: 20px;
+        display: inline-block;
+        text-align: center;
+    }
+
+.pagionationPageSelect {
+    padding: 2px 3px 2px 3px;
+    border: 1px solid #865DAD;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+
+.paginationCurrent {
+    font-weight: bold;
+    color: white;
+    background: #865DAD;
+}
+
+.paginationDisabled {
+    color: #999999;
+    border: 1px solid #dddddd;
+}
+
+.paginationNextPage {
+    padding: 2px;
+    border: 1px solid;
+    margin-left: 3px;
+}
+
+.paginationLast {
+    padding: 2px 3px 2px 3px;
+    border: 1px solid;
+    margin-left: 6px;
+}
