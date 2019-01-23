@@ -10,6 +10,11 @@ open _3MoeSite.Views
 
 let data = WGApiDataProvider.Instance
 
+type Tier (tier, tankCount, threeMoECount) =
+    member this.Tier = tier
+    member this.TankCount = tankCount
+    member this.ThreeMoECount = threeMoECount
+
 let tierPage (id : int) (params : TableParams) = 
     let success = id > 0 && id < 11
 
@@ -24,13 +29,15 @@ let tierPage (id : int) (params : TableParams) =
         
 let tiersTable params =
     let tableTemplate = customTable ([
-        createCustomColumn "Tier"       "tier"      (fun p -> TableCellObject.I p)
-            (fun p -> a [ _href (sprintf "/tier/%i" p) ] [ encodedText (sprintf "%i" p)])
-        ] : int Column list) params
+        createCustomColumn "Tier"       "tier"      (fun p -> TableCellObject.I p.Tier)
+            (fun p -> a [ _href (sprintf "/tier/%i" p.Tier) ] [ encodedText (sprintf "%i" p.Tier)])
+        createColumn       "Tanks"      "tanks"     (fun p -> TableCellObject.I p.TankCount)
+        createColumn       "3 MoE"      "3moe"      (fun p -> TableCellObject.I p.ThreeMoECount)
+        ] : Tier Column list) params
         
     [
         headlineBlock "Tiers"
-        [| 1 .. 10|] |> tableTemplate
+        [| 1 .. 10|] |> Seq.map(fun t -> Tier(t, data.Tanks.Count(fun s -> s.Tier = t), data.Tanks.Where(fun m -> m.Tier = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
     ] |> layout "Tiers"
 
         
