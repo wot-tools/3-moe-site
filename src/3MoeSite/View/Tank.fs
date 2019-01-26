@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -32,12 +33,12 @@ let tankPage id =
                     ]
                     div [] [
                         img [ _class "imageNation" 
-                              _src "" ]
-                        a [ _href (sprintf "/nation/%s" (string tank.Nation)) ] [ encodedText (string tank.Nation) ]
+                              _src (Links.nationFlag ((string tank.Nation).ToLower())) ]
+                        a [ _href (Links.nationPage (int tank.Nation)) ] [ encodedText (string tank.Nation) ]
                         encodedText ", "
-                        a [ _href (sprintf "/tiers/%i" tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
+                        a [ _href (Links.tierPage tank.Tier) ] [ encodedText (sprintf "%i" tank.Tier) ]
                         encodedText ", "
-                        a [ _href (sprintf "/type/%s" (string tank.VehicleType)) ] [ encodedText (string tank.VehicleType) ]
+                        a [ _href (Links.vehicleTypePage (int tank.VehicleType)) ] [ encodedText (string tank.VehicleType) ]
                         img [ _class "imageTankType" 
                               _src "" ]
                     ]

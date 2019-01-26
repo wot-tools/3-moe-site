@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -30,7 +31,7 @@ let tierPage (id : int) (params : TableParams) =
 let tiersTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Tier"       "tier"      (fun p -> TableCellObject.I p.Tier)
-            (fun p -> a [ _href (sprintf "/tier/%i" p.Tier) ] [ encodedText (sprintf "%i" p.Tier)])
+            (fun p -> a [ _href (Links.tierPage p.Tier) ] [ encodedText (sprintf "%i" p.Tier)])
         createColumn       "Tanks"      "tanks"     (fun p -> TableCellObject.I p.TankCount)
         createColumn       "3 MoE"      "3moe"      (fun p -> TableCellObject.I p.ThreeMoECount)
         ] : Tier Column list) params

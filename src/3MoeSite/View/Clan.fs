@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -36,8 +37,8 @@ let clanPage id =
                     ]
                     div [] [ encodedText (sprintf "%i Members" clan.Members) ]
                     div [ _class "externalClanLinks" ] [
-                        linkWithImage (sprintf "https://eu.wargaming.net/clans/wot/%i/" clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
-                        linkWithImage (sprintf "https://wotlabs.net/eu/clan/%s" clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
+                        linkWithImage (Links.clanProfileWG clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
+                        linkWithImage (Links.clanProfileWotlabs clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                     ]
                 ]
             ]
@@ -53,7 +54,7 @@ let clanPage id =
 let clansTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Name"       "name"  (fun c -> S c.Name)
-            (fun c -> a [ _href (sprintf "/clan/%i" c.ID) ] [ encodedText c.Name ])
+            (fun c -> a [ _href (Links.clanPage c.ID) ] [ encodedText c.Name ])
         createColumn "Tag"              "tag"   (fun c -> S c.Tag)
         createColumn "3 MoE"            "moe"   (fun c -> TableCellObject.I c.ThreeMoe)
         createColumn "MoE Rating"       "moer"  (fun c -> TableCellObject.D c.MoeRating)

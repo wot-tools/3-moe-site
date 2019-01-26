@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Links.fs" />
     <Compile Include="Model\GeneralModel.fs" />
     <Compile Include="View\Css.fs" />
     <Compile Include="View\Navigation.fs" />

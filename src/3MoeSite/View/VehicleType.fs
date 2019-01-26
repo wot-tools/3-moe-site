@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -32,7 +33,7 @@ let vehicleTypePage (id : int) (params : TableParams) =
 let vehicleTypeTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Type"       "type"      (fun p -> TableCellObject.S p.Name)
-            (fun p -> a [ _href (sprintf "/type/%i" p.ID) ] [ encodedText p.Name])
+            (fun p -> a [ _href (Links.vehicleTypePage p.ID) ] [ encodedText p.Name])
         createColumn       "Tanks"      "tanks"     (fun p -> TableCellObject.I p.TankCount)
         createColumn       "3 MoE"      "3moe"      (fun p -> TableCellObject.I p.ThreeMoECount)
         ] : VehicleType Column list) params

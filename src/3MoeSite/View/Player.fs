@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -34,7 +35,7 @@ let playerPage (id : int) (params : TableParams) =
                     div [ _class "playerInfoDiv"] [
                         div [ _class "playerName" ] [
                             encodedText player.Name
-                            img [ _src (sprintf "/img/flags/%s.png" player.ClientLanguage) ]
+                            img [ _src (Links.clientLanguageFlag player.ClientLanguage) ]
                         ]
                         div [ _class "moeCount"] [
                         img [ _src "/img/3stars.png" 
@@ -42,22 +43,22 @@ let playerPage (id : int) (params : TableParams) =
                         encodedText (System.String.Format("{0:N0}", player.ThreeMoeCount))
                         ]
                         div [ _class "playerLinkDiv"] [
-                            linkWithImage (sprintf "https://worldoftanks.eu/en/community/accounts/%i" player.ID) "WG Profile " "http://eu.wargaming.net/favicon.ico"
-                            linkWithImage (sprintf "http://wotlabs.net/eu/player/%s" player.Name) "Wotlabs" "http://wotlabs.net/images/favicon.png"
+                            linkWithImage (Links.playerProfileWG player.ID) "WG Profile " "http://eu.wargaming.net/favicon.ico"
+                            linkWithImage (Links.playerProfileWotlabs player.Name) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                         ]
                     ]
                     div [ _class (sprintf "clanInfoDiv %s" (if player.Clan.ID = 0 then "hidden" else "" )) ] [
                         img [ _src player.Clan.Emblems.x32.Portal  
                               _class "clanIcon" ]
                         span [ _class "clanTag" ] [ 
-                                a [ _href (sprintf "/clan/%i" player.Clan.ID)
+                                a [ _href (Links.clanPage player.Clan.ID)
                                     _target "blank" ] [
                                         encodedText player.Clan.Tag
                                 ]
                         ]
                         div [ _class "clanLinkDiv" ] [
-                            linkWithImage (sprintf "https://eu.wargaming.net/clans/wot/%i" player.Clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
-                            linkWithImage (sprintf "https://wotlabs.net/eu/clan/%s" player.Clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
+                            linkWithImage (Links.clanProfileWG player.Clan.ID) "WG Profile" "http://eu.wargaming.net/favicon.ico"
+                            linkWithImage (Links.clanProfileWotlabs player.Clan.Tag) "Wotlabs" "http://wotlabs.net/images/favicon.png"
                         ]
                     ]
                 ]
@@ -83,17 +84,17 @@ let playerPage (id : int) (params : TableParams) =
                 marks.Values |> Seq.toArray |> customTable ([
                     createColumn "Contour" "contour" (fun m -> Img m.Tank.Icons.Contour)
                     createCustomColumn "Tank"         "tank"  (fun m -> S m.Tank.Name)
-                        (fun m -> (a [ _href (sprintf "/tank/%i" m.Tank.ID) ] [
+                        (fun m -> (a [ _href (Links.tankPage m.Tank.ID) ] [
                                         encodedText m.Tank.Name ]))
                     createColumn "First detected"   "firstDetection"    (fun m -> T m.FirstDetected)
                     createColumn "3 MoE"        "moe"   (fun m -> TableCellObject.I m.Tank.ThreeMoeCount)
                     createColumn "MoE Value"    "moev"  (fun m -> TableCellObject.D m.Tank.MoeValue)
                     createCustomColumn "Tier"         "tier"  (fun m -> TableCellObject.I m.Tank.Tier)
-                        (fun m -> (linkWithImage (sprintf "/tier/%i" m.Tank.Tier) (string m.Tank.Tier) ""))
+                        (fun m -> (linkWithImage (Links.tierPage m.Tank.Tier) (string m.Tank.Tier) ""))
                     createCustomColumn "Nation"       "nat"   (fun m -> E m.Tank.Nation)
-                        (fun m -> (linkWithImage (sprintf "/nation/%s" (string m.Tank.Nation)) (string m.Tank.Nation) ""))
+                        (fun m -> (linkWithImage (Links.nationPage ((int)m.Tank.Nation)) (string m.Tank.Nation) (Links.nationFlag ((string m.Tank.Nation).ToLower()))))
                     createCustomColumn "Type"         "type"  (fun m -> E m.Tank.VehicleType)
-                        (fun m -> (linkWithImage (sprintf "/type/%s" (string m.Tank.VehicleType)) (string m.Tank.VehicleType) ""))
+                        (fun m -> (linkWithImage (Links.vehicleTypePage (int m.Tank.VehicleType)) (string m.Tank.VehicleType) ""))
                     ] : Mark Column List) params)
         ] |> layout player.Name
 
@@ -101,9 +102,9 @@ let playerPage (id : int) (params : TableParams) =
 let playersTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Name"       "name"      (fun p -> S p.Name)
-            (fun p -> a [ _href (sprintf "/player/%i" p.ID) ] [ encodedText p.Name ])
+            (fun p -> a [ _href (Links.playerPage p.ID) ] [ encodedText p.Name ])
         createCustomColumn "Clan"       "clan"      (fun p -> S (string p.Clan.Tag))
-            (fun p -> a [ _href (sprintf "/clan/%i" p.Clan.ID) ] [ encodedText p.Clan.Tag ])
+            (fun p -> a [ _href (Links.clanPage p.Clan.ID) ] [ encodedText p.Clan.Tag ])
         createColumn "3 MoE"            "moe"       (fun p -> TableCellObject.I p.ThreeMoeCount)
         createColumn "Battles"          "battles"   (fun p -> TableCellObject.I p.BattleCount)
         createColumn "Win ratio"        "wr"        (fun p -> Perc p.WinRatio)

@@ -6,6 +6,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 
 
@@ -51,15 +52,15 @@ let dateBlock (displayValue : DateTime) text =
 let tankDisplayTable = customTable ([
     createColumn "Contour" "contour" (fun t -> Img t.Icons.Contour)
     createCustomColumn "Name"         "name"  (fun t -> S t.Name)
-        (fun t -> (a [ _href (sprintf "/tank/%i" t.ID) ] [
+        (fun t -> (a [ _href (Links.tankPage t.ID) ] [
                         encodedText t.Name ]))
     createColumn "Short Name"   "sn"    (fun t -> S t.ShortName)
     createColumn "3 MoE"        "moe"   (fun t -> TableCellObject.I t.ThreeMoeCount)
     createColumn "MoE Value"    "moev"  (fun t -> TableCellObject.D t.MoeValue)
     createCustomColumn "Tier"         "tier"  (fun t -> TableCellObject.I t.Tier)
-        (fun t -> (linkWithImage (sprintf "/tier/%i" t.Tier) (string t.Tier) ""))
+        (fun t -> (linkWithImage (Links.tierPage t.Tier) (string t.Tier) ""))
     createCustomColumn "Nation"       "nat"   (fun t -> E t.Nation)
-        (fun t -> (linkWithImage (sprintf "/nation/%s" (string t.Nation)) (string t.Nation) (sprintf "https://eu-wotp.wgcdn.co/static/5.32.1_0d6e8f/wotp_static/img/core/frontend/scss/common/components/icons/img/filter-%s.png" ((string t.Nation).ToLower()))))
+        (fun t -> (linkWithImage (Links.nationPage (int t.Nation)) (string t.Nation) (Links.nationFlag ((string t.Nation).ToLower()))))
     createCustomColumn "Type"         "type"  (fun t -> E t.VehicleType)
-        (fun t -> (linkWithImage (sprintf "/type/%s" (string t.VehicleType)) (string t.VehicleType) ""))
+        (fun t -> (linkWithImage (Links.vehicleTypePage (int t.VehicleType)) (string t.VehicleType) ""))
     ] : Tank Column List)

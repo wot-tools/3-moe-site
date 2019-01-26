@@ -7,6 +7,7 @@ open System
 open System.Linq
 open WGApiDataProvider
 open _3MoeSite.Views
+open _3MoeSite
 
 let data = WGApiDataProvider.Instance
 
@@ -32,7 +33,7 @@ let nationPage (id : int) (params : TableParams) =
 let nationTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Nation"     "nation"      (fun p -> TableCellObject.S p.Name)
-            (fun p -> (linkWithImage (sprintf "/nation/%i" (p.ID)) (string p.Name) (sprintf "https://eu-wotp.wgcdn.co/static/5.32.1_0d6e8f/wotp_static/img/core/frontend/scss/common/components/icons/img/filter-%s.png" (p.Name.ToLower()))))
+            (fun p -> (linkWithImage (Links.nationPage p.ID) (string p.Name) (Links.nationFlag (p.Name.ToLower()))))
         createColumn       "Tanks"      "tanks"     (fun p -> TableCellObject.I p.TankCount)
         createColumn       "3 MoE"      "3moe"      (fun p -> TableCellObject.I p.ThreeMoECount)
         ] : Nation Column list) params
