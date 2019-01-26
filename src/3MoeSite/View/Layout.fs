@@ -12,6 +12,9 @@ let layout customTitlePrefix (content: XmlNode list) =
             link [ _rel  "stylesheet"
                    _type "text/css"
                    _href "/main.css" ]
+            link [ _rel "icon" 
+                   _type "image/png" 
+                   _href "/img/favicon.png" ]
         ]
         header [] [ navigation () ]
         main [] [
