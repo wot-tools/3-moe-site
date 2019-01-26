@@ -466,11 +466,6 @@ tr:hover {
     background: #865DAD;
 }
 
-.paginationDisabled {
-    color: #999999;
-    border: 1px solid #dddddd;
-}
-
 .paginationNextPage {
     padding: 2px;
     border: 1px solid;
@@ -481,4 +476,9 @@ tr:hover {
     padding: 2px 3px 2px 3px;
     border: 1px solid;
     margin-left: 6px;
+}
+
+.paginationDisabled {
+    color: #999999;
+    border: 1px solid #dddddd;
 }
