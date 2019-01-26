@@ -12,7 +12,7 @@ let navigation () =
             ("/players", "players")
             ("/clans", "Clans")
             ("/nations", "Nations")
-            ("/vehicle_tyles", "Vehicle types")
+            ("/types", "Vehicle types")
             ("/tiers", "Tiers")
         ] 
         |> List.map (fun (url, text) -> li [ _class "headerButton" ] [ a [ _href url ] [ encodedText text ] ] )
