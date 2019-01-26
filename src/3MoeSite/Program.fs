@@ -52,6 +52,8 @@ let webApp =
                 route "/tiers"  >=> tableBinding Views.Tier.tiersTable { sort = "tier"; direction = "desc"; page = 1 }
                 routef "/type/%i" (combinedHandler Views.VehicleType.vehicleTypeHandler { sort = "moe"; direction = "asc"; page = 1 })
                 route "/types"  >=> tableBinding Views.VehicleType.vehicleTypeTable { sort = "type"; direction = "asc"; page = 1 }
+                routef "/nation/%i" (combinedHandler Views.Nation.nationHandler { sort = "moe"; direction = "asc"; page = 1 })
+                route "/nations"  >=> tableBinding Views.Nation.nationTable { sort = "nation"; direction = "asc"; page = 1 }
             ]
         setStatusCode 404 >=> text "Not Found" ]
 
