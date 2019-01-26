@@ -38,10 +38,10 @@ let vehicleTypeTable params =
         ] : VehicleType Column list) params
         
     [
-        headlineBlock "Tiers"
+        headlineBlock "Vehicle types"
         Enum.GetValues(typeof<WGApi.VehicleTypes>) |> Seq.cast<WGApi.VehicleTypes> |> Seq.map(fun t -> VehicleType((int)t, (string)t, data.Tanks.Count(fun s -> s.VehicleType = t),
                                                      data.Tanks.Where(fun m -> m.VehicleType = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
-    ] |> layout "Tiers"
+    ] |> layout "Vehicle types"
 
         
 let vehicleTypeHandler (id : int) (params :  TableParams) =
