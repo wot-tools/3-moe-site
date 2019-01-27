@@ -482,3 +482,8 @@ tr:hover {
     color: #999999;
     border: 1px solid #dddddd;
 }
+
+.aboutMoERating {
+    max-width: 850px;
+    margin-bottom: 20px;
+}

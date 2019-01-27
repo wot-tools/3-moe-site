@@ -30,6 +30,7 @@
     <Compile Include="View\Tank.fs" />
     <Compile Include="View\Tier.fs" />
     <Compile Include="View\VehicleType.fs" />
+    <Compile Include="View\About.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

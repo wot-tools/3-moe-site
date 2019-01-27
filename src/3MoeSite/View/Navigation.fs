@@ -15,6 +15,7 @@ let navigation () =
             (Links.nationIndex, "Nations")
             (Links.vehicleTypeIndex, "Vehicle types")
             (Links.tierIndex, "Tiers")
+            (Links.about, "About")
         ] 
         |> List.map (fun (url, text) -> li [ _class "headerButton" ] [ a [ _href url ] [ encodedText text ] ] )
         |> ul [ _class "headerNavigationBar" ])

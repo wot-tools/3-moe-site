@@ -1,5 +1,8 @@
 ﻿module _3MoeSite.Links
 
+    let about = "/about"
+    let flagIconsSource = "http://www.famfamfam.com/lab/icons/flags/"
+
     let playerIndex = "/players"
     let playerPage id = (sprintf "/player/%i" id)
     let playerProfileWG id = (sprintf "https://worldoftanks.eu/en/community/accounts/%i" id)

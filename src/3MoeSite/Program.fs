@@ -41,6 +41,7 @@ let webApp =
         GET >=>
             choose [
                 route "/" >=> htmlView Views.Root.rootPage
+                route "/about" >=> htmlView Views.About.aboutPage
                 routef "/player/%i" (combinedHandler playerHandler { sort = "firstDetection"; direction = "desc"; page = 1 })
                 routef "/clan/%i" clanHandler
                 routef "/tank/%i" tankHandler
