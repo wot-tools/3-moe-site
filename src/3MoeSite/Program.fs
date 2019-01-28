@@ -44,7 +44,7 @@ let webApp =
                 route "/about" >=> htmlView Views.About.aboutPage
                 routef "/player/%i" (combinedHandler playerHandler { sort = "firstDetection"; direction = "desc"; page = 1 })
                 routef "/clan/%i" clanHandler
-                routef "/tank/%i" tankHandler
+                routef "/tank/%i" (combinedHandler tankHandler { sort = "firstDetection"; direction = "asc"; page =1 })
                 route "/players" >=> tableBinding Views.Player.playersTable { sort = "moer"; direction = "desc"; page = 1 }
                 route "/marks"   >=> tableBinding Views.Mark.marksTable { sort = "det"; direction = "desc"; page = 1 }
                 route "/clans"   >=> tableBinding Views.Clan.clansTable { sort = "moe"; direction = "desc"; page = 1 }
