@@ -1,4 +1,4 @@
-﻿[<AutoOpen>]
+[<AutoOpen>]
 module _3MoeSite.Views.Mark
 open Giraffe
 open Giraffe.GiraffeViewEngine
@@ -18,6 +18,7 @@ let marksTable params =
             (fun m -> a [ _href (Links.playerPage m.Player.ID) ] [ encodedText m.Player.Name ])
         createCustomColumn "Clan"       "clan"  (fun m -> S m.Clan.Name)
             (fun m -> a [ _href (Links.clanPage m.Clan.ID) ] [ encodedText m.Clan.Name ])
+        createColumn       "Contour"    "contour" (fun m -> Img m.Tank.Icons.Contour)
         createCustomColumn "Tank"       "tank"  (fun m -> S m.Tank.Name)
             (fun m -> a [ _href (Links.tankPage m.Tank.ID) ] [ encodedText m.Tank.Name ])
         createColumn "First Detected At""det"   (fun m -> T m.FirstDetected) 
