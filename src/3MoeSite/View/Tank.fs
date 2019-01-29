@@ -45,7 +45,9 @@ let tankPage (id : int) (params : TableParams) =
                 ]                    
             ]
             (match data._TanksMarks.TryGetValue id with
-            | false, _ -> encodedText "no marks"
+            | false, _ -> div [ _class "noMarksDiv" ][ 
+                            encodedText "There are no players with 3 Marks of Excellence on this tank. Be the first one to get them!"                
+                          ]
             | true, marks ->
                 marks.Values |> Seq.toArray |> customTable ([
                     createCustomColumn "Name"       "name"           (fun m -> S m.Player.Name)

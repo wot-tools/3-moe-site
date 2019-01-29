@@ -79,7 +79,9 @@ let playerPage (id : int) (params : TableParams) =
             ]
 
             (match data._PlayersMarks.TryGetValue player.ID with
-            | false, _ -> encodedText "no marks"
+            | false, _ -> div [ _class "noMarksDiv" ][ 
+                            encodedText "This player has no 3 Marks of Excellence on any tank."                
+                          ]
             | true, marks ->
                 marks.Values |> Seq.toArray |> customTable ([
                     createColumn "Contour" "contour" (fun m -> Img m.Tank.Icons.Contour)
