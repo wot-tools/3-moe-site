@@ -45,7 +45,7 @@ let linkWithImage (link : string) (title: string) (imgSrc : string) =
 
 let dateBlock (displayValue : DateTime) text = 
     div [ _class "dateValueBox" ] [
-            div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0}", displayValue)) ]
+            div [ _class "dateValueBoxDiv" ] [ encodedText (System.String.Format("{0:g}", displayValue)) ]
             encodedText text
         ]
 

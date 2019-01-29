@@ -25,7 +25,7 @@ let printCellObject (o : TableCellObject) =
     | I i -> encodedText (System.String.Format("{0:N0}", i))
     | M m -> encodedText (string m)
     | D d -> encodedText (System.String.Format("{0:N0}", d))
-    | T t -> encodedText (string t)
+    | T t -> encodedText (System.String.Format("{0:g}", t))
     | E e -> encodedText (string e)
     | Img i -> img [ _src i]
     | Perc p -> encodedText (System.String.Format("{0:P2}", p))
