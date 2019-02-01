@@ -40,8 +40,9 @@ let vehicleTypeTable params =
         
     [
         headlineBlock "Vehicle types"
-        Enum.GetValues(typeof<WGApi.VehicleTypes>) |> Seq.cast<WGApi.VehicleTypes> |> Seq.map(fun t -> VehicleType((int)t, (string)t, data.Tanks.Count(fun s -> s.VehicleType = t),
-                                                     data.Tanks.Where(fun m -> m.VehicleType = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
+        Enum.GetValues(typeof<WGApi.VehicleTypes>) |> Seq.cast<WGApi.VehicleTypes> |> Seq.skip(1) |> (fun t -> t.Take(Seq.length(t)-1))
+                                                   |> Seq.map(fun t -> VehicleType((int)t, (string)t, data.Tanks.Count(fun s -> s.VehicleType = t),
+                                                                        data.Tanks.Where(fun m -> m.VehicleType = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
     ] |> layout "Vehicle types"
 
         

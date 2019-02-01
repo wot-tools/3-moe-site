@@ -40,7 +40,7 @@ let nationTable params =
         
     [
         headlineBlock "Nations"
-        Enum.GetValues(typeof<WGApi.Nations>) |> Seq.cast<WGApi.Nations> 
+        Enum.GetValues(typeof<WGApi.Nations>) |> Seq.cast<WGApi.Nations> |> Seq.skip(1) |> (fun t -> t.Take(Seq.length(t)-1))
             |> Seq.map(fun t -> Nation((int)t, (string)t, data.Tanks.Count(fun s -> s.Nation= t),
                                        data.Tanks.Where(fun m -> m.Nation = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
     ] |> layout "Nation"
