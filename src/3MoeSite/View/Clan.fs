@@ -55,7 +55,8 @@ let clansTable params =
     let tableTemplate = customTable ([
         createCustomColumn "Name"       "name"  (fun c -> S c.Name)
             (fun c -> a [ _href (Links.clanPage c.ID) ] [ encodedText c.Name ])
-        createColumn "Tag"              "tag"   (fun c -> S c.Tag)
+        createCustomColumn "Tag"              "tag"   (fun c -> S c.Tag)
+            (fun c -> (clanLinkWithIcon c))
         createColumn "3 MoE"            "moe"   (fun c -> TableCellObject.I c.ThreeMoe)
         createColumn "MoE Rating"       "moer"  (fun c -> TableCellObject.D c.MoeRating)
         createColumn "Last update (WG)" "lupd"  (fun c -> T c.UpdatedWG)

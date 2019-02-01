@@ -49,6 +49,16 @@ let dateBlock (displayValue : DateTime) text =
             encodedText text
         ]
 
+let clanLinkWithIcon (clan : Clan) = 
+    match clan.ID with
+    | 0 -> span [] []
+    | _ -> a [ _href (Links.clanPage clan.ID)
+               _target "blank" 
+               _class "clanTagLinkWithIcon"] [
+                    img [ _src clan.Emblems.x24.Portal ]
+                    encodedText clan.Tag
+           ]
+
 let tankDisplayTable = customTable ([
     createColumn "Contour" "contour" (fun t -> Img t.Icons.Contour)
     createCustomColumn "Name"         "name"  (fun t -> S t.Name)

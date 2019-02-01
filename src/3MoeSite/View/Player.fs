@@ -106,7 +106,7 @@ let playersTable params =
         createCustomColumn "Name"       "name"      (fun p -> S p.Name)
             (fun p -> a [ _href (Links.playerPage p.ID) ] [ encodedText p.Name ])
         createCustomColumn "Clan"       "clan"      (fun p -> S (string p.Clan.Tag))
-            (fun p -> a [ _href (Links.clanPage p.Clan.ID) ] [ encodedText p.Clan.Tag ])
+            (fun p -> clanLinkWithIcon p.Clan)
         createColumn "3 MoE"            "moe"       (fun p -> TableCellObject.I p.ThreeMoeCount)
         createColumn "Battles"          "battles"   (fun p -> TableCellObject.I p.BattleCount)
         createColumn "Win ratio"        "wr"        (fun p -> Perc p.WinRatio)

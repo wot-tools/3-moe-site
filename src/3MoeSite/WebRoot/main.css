@@ -156,6 +156,11 @@ tr:hover {
   margin-left: 0px;
 }
 
+.clanTagLinkWithIcon img {
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
 .clearfix::after {
 	content: "";
 	clear: both;
