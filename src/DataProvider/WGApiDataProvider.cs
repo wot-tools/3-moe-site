@@ -177,6 +177,23 @@ namespace WGApiDataProvider
             var vehicles = await client.GetVehiclesAsync();
             foreach (var kvp in vehicles.Where(x => x.Value.Tier >= 5))
                 __Tanks.Add(kvp.Key, new Tank(kvp.Key, kvp.Value));
+
+            __Tanks.Add(61713, new Tank(61713, new WGApi.Tank()
+            {
+                Tier = 7,
+                VehicleType = VehicleTypes.TD,
+                Nation = Nations.Germany,
+                Name = "Krupp-Steyr Waffentr�ger",
+                IsPremium = true,
+                Tag = "G109_Steyr_WT",
+                ShortName = "Steyr WT",
+                Icons = new Icons()
+                {
+                    Big = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/germany-G109_Steyr_WT.png",
+                    Contour = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/contour/germany-G109_Steyr_WT.png",
+                    Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/germany-G109_Steyr_WT.png",
+                }
+            }));
         }
 
         private async Task GetPlayers(WGApiClient client, IEnumerable<int> playerIDs)
