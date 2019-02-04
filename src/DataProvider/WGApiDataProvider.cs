@@ -167,6 +167,12 @@ namespace WGApiDataProvider
 
                 var playerTask = GetPlayers(Client, PlayerIDsToCheck.Skip(i * 100).Take(100));
                 await Task.WhenAll(clanTask ?? playerTask, playerTask);
+                if (i % 10 == 0)
+                {
+                    Console.WriteLine($"{DateTime.Now}: saving data");
+                    await Save();
+                }
+
                 i += 1;
                 nextRun = i;
             }
