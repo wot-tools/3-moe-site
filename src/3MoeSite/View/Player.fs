@@ -122,7 +122,7 @@ let playersTable params =
     ] : Player Column list) params
 
     [
-        headlineBlock "Players"
+        headlineBlock (System.String.Format("{0:N0} Players", data.Players.Length))
         data.Players |> tableTemplate
     ] |> layout "Players"
 

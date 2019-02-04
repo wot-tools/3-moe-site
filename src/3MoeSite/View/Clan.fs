@@ -66,7 +66,7 @@ let clansTable params =
     ] : Clan Column List) params
 
     [
-        headlineBlock "Clans"
+        headlineBlock (System.String.Format("{0:N0} Clans", data.Clans.Length))
         data.Clans |> tableTemplate
     ] |> layout "Clans"
 

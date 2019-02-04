@@ -25,6 +25,6 @@ let marksTable params =
     ] : Mark Column List) params
 
     [
-        headlineBlock "Marky Marks"
+        headlineBlock (System.String.Format("{0:N0} Marky Marks", data.Marks.Length))
         data.Marks |> tableTemplate
     ] |> layout "Marky Marks"

@@ -73,7 +73,7 @@ let tankPage (id : int) (params : TableParams) =
         
 let tanksTable params =
     [
-        headlineBlock "Tank Overview"
+        headlineBlock (System.String.Format("{0:N0} Tanks", data.Tanks.Length))
         data.Tanks |> tankDisplayTable params
     ] |> layout "Tanks"
         
