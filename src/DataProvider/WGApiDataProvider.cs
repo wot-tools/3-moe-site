@@ -145,6 +145,7 @@ namespace WGApiDataProvider
         private async Task UpdateLoop()
         {
             int i = nextRun;
+            var totalRunCount = Math.Ceiling(PlayerIDsToCheck.Count / 100.0);
             Console.WriteLine($"Starting up. Next run: {nextRun}");
             while (true)
             {
@@ -156,7 +157,7 @@ namespace WGApiDataProvider
                     return;
                 }
 
-                Console.WriteLine($"doing run {i}");
+                Console.WriteLine($"{DateTime.Now}: doing run {i:N0}/{totalRunCount:N0} ({i / totalRunCount:P2})");
 
                 var clans = ClanIDsToCheck.ToArray();
                 ClanIDsToCheck.Clear();
