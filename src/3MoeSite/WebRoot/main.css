@@ -10,78 +10,78 @@ h1 {
 }
 
 a {
-  text-decoration: none;
-  color: #7524D8;
+    text-decoration: none;
+    color: #7524D8;
 }
 
 .headerBox {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: max-content;
 }
 
 .contentBox {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: max-content;
-  margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: max-content;
+    margin-top: 25px;
 }
 
 .footerBox {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: max-content;
-  margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: max-content;
+    margin-top: 50px;
 }
 
 .hidden {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
-  overflow-x: auto;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
 }
 
 td, th {
-  border: 1px solid #ddd;
-  padding: 5px;
+    border: 1px solid #ddd;
+    padding: 5px;
 }
 
 td span {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 td img {
-  vertical-align: middle
+    vertical-align: middle
 }
-  
+
 td a {
-  text-decoration: none;
-  vertical-align: middle;
-  color: #7524D8;
+    text-decoration: none;
+    vertical-align: middle;
+    color: #7524D8;
 }
 
 th {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: left;
-  background-color: #865DAD;
-  color: white;
-  font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: left;
+    background-color: #865DAD;
+    color: white;
+    font-size: 16px;
 }
 
-th a {	
-  text-decoration: none;
-  color: white;
+th a {    
+    text-decoration: none;
+    color: white;
 }
 
 tr:nth-child(even) {
-  background-color: #E6E6E6;
+    background-color: #E6E6E6;
 }
 
 tr:hover {
-  background-color: #DFD8F3;
+    background-color: #DFD8F3;
 }
 
 .flagIcon {
@@ -90,71 +90,71 @@ tr:hover {
 }
 
 .headerNavigationBar {
-  width: 100%;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #AF9DE0;
-  text-transform: uppercase;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #AF9DE0;
+    text-transform: uppercase;
 }
 
 .headerButton {
-  float: left;
-  border-right: 1px solid #bbb;
+    float: left;
+    border-right: 1px solid #bbb;
 }
 
-.headerButton a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
-  background: #865DAD;
-  /*font-family: 'Ubuntu Condensed', sans-serif;*/
-  font-size: 14px;
-  font-style: normal;
-  font-weight: bold;
-}
+    .headerButton a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 10px 10px;
+        text-decoration: none;
+        background: #865DAD;
+        /*font-family: 'Ubuntu Condensed', sans-serif;*/
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+    }
 
-.headerButton a:hover, .headerButton a:focus {
-  color: #230033;
-  background: #A775FF;
-}
+    .headerButton a:hover, .headerButton a:focus {
+        color: #230033;
+        background: #A775FF;
+    }
 
 .pageSelect {
-  margin: 5px;
+    margin: 5px;
 }
 
 .footerText {
-  font-size: 12px
+    font-size: 12px
 }
 
 .errorBox {
-  background: #ff009985;
-  border: 2px solid black;
-  margin: 6px;
-  padding: 3px;
-  width: fit-content;
+    background: #ff009985;
+    border: 2px solid black;
+    margin: 6px;
+    padding: 3px;
+    width: fit-content;
 }
 
-  .errorBox span {
-    font-size: large;
-    font-weight: bold;
-  }
+    .errorBox span {
+        font-size: large;
+        font-weight: bold;
+    }
 
 .linkWithImage {
-  margin-left: 6px;
+    margin-left: 6px;
 }
 
-.linkWithImage img {
-  vertical-align: text-top;
-  margin-right: 3px;
-}
+    .linkWithImage img {
+        vertical-align: text-top;
+        margin-right: 3px;
+    }
 
-.linkWithImage:first-of-type {
-  margin-left: 0px;
-}
+    .linkWithImage:first-of-type {
+        margin-left: 0px;
+    }
 
 .clanTagLinkWithIcon img {
     vertical-align: middle;
@@ -162,124 +162,124 @@ tr:hover {
 }
 
 .clearfix::after {
-	content: "";
-	clear: both;
-	display: table;
+    content: "";
+    clear: both;
+    display: table;
 }
 
 .valueBoxes {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	clear: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    clear: left;
 }
 
 .valueBox {
-	font-weight: bold;
-	padding: 10px 0;
-	text-align: center;
-	border: 2px solid #865DAD;
-	box-sizing: border-box;
-	width: 10%;
-	float: left;
-	margin-right: 5px;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    border: 2px solid #865DAD;
+    box-sizing: border-box;
+    width: 10%;
+    float: left;
+    margin-right: 5px;
 }
 
 .statValueBox {
-  font-weight: bold;
-	padding: 10px 0;
-	text-align: center;
-	border: 2px solid #865DAD;
-	box-sizing: border-box;
-	width: 10%;
-	float: left;
-	margin-right: 2px;
-	font-size: 10px;
-	min-width: 150px;	
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    border: 2px solid #865DAD;
+    box-sizing: border-box;
+    width: 10%;
+    float: left;
+    margin-right: 2px;
+    font-size: 10px;
+    min-width: 150px;
 }
 
-  .statValueBox div {
-    font-size: 25px;
-  }
+    .statValueBox div {
+        font-size: 25px;
+    }
 
 .darkBorder {
-	border: 2px solid #000;
+    border: 2px solid #000;
 }
 
 .dateValueBox {
-  font-weight: bold;
-	text-align: center;
-	box-sizing: border-box;
-	float: left;
-	font-size: 10px;
-	padding: 5px 0;
-	border: 1px solid #865DAD;
-	min-width: 150px;
-	margin-right: 2px;
+    font-weight: bold;
+    text-align: center;
+    box-sizing: border-box;
+    float: left;
+    font-size: 10px;
+    padding: 5px 0;
+    border: 1px solid #865DAD;
+    min-width: 150px;
+    margin-right: 2px;
 }
 
-  .dateValueBox div {
-    font-size: 13px;
-  }
+    .dateValueBox div {
+        font-size: 13px;
+    }
 
 .playerInfoBlock {
-	margin: 10px 0px 10px 0px;
+    margin: 10px 0px 10px 0px;
 }
 
 .playerInfoDiv {
-  float: left;
-  padding: 5px;
-  border: 2px solid #865DAD;
-  margin-right: 5px;
+    float: left;
+    padding: 5px;
+    border: 2px solid #865DAD;
+    margin-right: 5px;
 }
 
 .playerName {
-  font-size: 26px;
+    font-size: 26px;
 }
 
-  .playerName img {
-      margin-left: 3px;
-      border: 1px black solid;
-  }
+    .playerName img {
+        margin-left: 3px;
+        border: 1px black solid;
+    }
 
 .playerLinkDiv {
-  margin-top: 6px
+    margin-top: 6px
 }
 
 .moeCount {
-  font-size: 30px;
-  font-weight: bold;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .clanInfoDiv {
-  border: 2px solid #865DAD;
-  padding: 5px;
-  float: left;
+    border: 2px solid #865DAD;
+    padding: 5px;
+    float: left;
 }
 
-  .clanInfoDiv a {
-    text-decoration: none;
-  }
+    .clanInfoDiv a {
+        text-decoration: none;
+    }
 
-  .clanInfoDiv span {
-    font-size: 22px;
-    margin-left: 6px;
-  }
+    .clanInfoDiv span {
+        font-size: 22px;
+        margin-left: 6px;
+    }
 
 .clanLinkDiv {
-  margin-top: 6px
+    margin-top: 6px
 }
 
 .clanIcon {
-  height: 32px;
-  width: 32px;
-  vertical-align: bottom;
+    height: 32px;
+    width: 32px;
+    vertical-align: bottom;
 }
 
 .playerImageDiv {
-	float: left;
-	margin: 0px 5px 0px 0px;
-	border: 2px solid #865DAD;
-	height: 128px;
+    float: left;
+    margin: 0px 5px 0px 0px;
+    border: 2px solid #865DAD;
+    height: 128px;
 }
 
 .image3moe {
@@ -288,48 +288,48 @@ tr:hover {
 }
 
 .cVeryBad {
-	background-color:#930D0D;
-	color: #fff;
+    background-color:#930D0D;
+    color: #fff;
 }
 .cBad {
-	background-color:#CD3333;
-	color: #fff;
+    background-color:#CD3333;
+    color: #fff;
 }
 .cBelowAverage {
-	background-color:#CC7A00;
-	color: #fff;
+    background-color:#CC7A00;
+    color: #fff;
 }
 .cAverage {
-	background-color:#CCB800;
-	color: #fff;
+    background-color:#CCB800;
+    color: #fff;
 }
 .cAboveAverage {
-	background-color:#849B24;
-	color: #fff;
+    background-color:#849B24;
+    color: #fff;
 }
 .cGood {
-	background-color:#4D7326;
-	color: #fff;
+    background-color:#4D7326;
+    color: #fff;
 }
 .cVeryGood {
-	background-color:#4099BF;
-	color: #fff;
+    background-color:#4099BF;
+    color: #fff;
 }
 .cGreat {
-	background-color:#3972C6;
-	color: #fff;
+    background-color:#3972C6;
+    color: #fff;
 }
 .cUnicum {
-	background-color:#793DB6;
-	color: #fff;
+    background-color:#793DB6;
+    color: #fff;
 }
 .cSuperUnicum {
-	background-color:#401070;
-	color: #fff;
+    background-color:#401070;
+    color: #fff;
 }
 
 .clanInfoBlock {
-	margin: 10px 0px 0px 0px;
+    margin: 10px 0px 0px 0px;
 }
 
 .clanInfoWrapper {
@@ -341,74 +341,74 @@ tr:hover {
   display: inline-block;
   margin: 0px 5px 0px 0px;
   border: 1px solid #865DAD;
-	height: 128px;
+    height: 128px;
 }
 
 .externalClanLinks {
-	margin-top: 3px;
+    margin-top: 3px;
 }
 
-  .externalClanLinks a {
-    text-decoration: none;
-  }
+    .externalClanLinks a {
+        text-decoration: none;
+    }
 
 .clanImage {
-	height: 128px;
-	width: 128px;
+    height: 128px;
+    width: 128px;
 }
 
 .clanName {
-	font-size: 26px;
+    font-size: 26px;
 }
 
 .clanTag {
-	font-size: 20px;
+    font-size: 20px;
 }
 
 .imageAlignBottom {
-	vertical-align: bottom;
+    vertical-align: bottom;
 }
 
 .tankInfoBlock {
-	margin: 10px 0px 10px 0px;
-	overflow: auto;
+    margin: 10px 0px 10px 0px;
+    overflow: auto;
 }
 
 .tankImageDiv {
-  display: inline-block;
-  margin: 0px 5px 0px 0px;
-  border: 1px solid #865DAD;
+    display: inline-block;
+    margin: 0px 5px 0px 0px;
+    border: 1px solid #865DAD;
 }
 
 .tankImageDiv img {
-  display: block;
+    display: block;
 }
 
 .tankDataDiv {
-  display: inline-block;
+    display: inline-block;
 }
 
 .tankName {
-	font-size: 26px;
+    font-size: 26px;
 }
 
 .imageAlignBottom img{
-	vertical-align: bottom;
+    vertical-align: bottom;
 }
 
 .imageNation {
-	margin-right: 3px;
+    margin-right: 3px;
 }
 
 .imageTankType {
-	vertical-align: text-top;
+    vertical-align: text-top;
 }
 
 .headline {
-	font-size: 30px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-weight: bold;
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .paginationFirst {
