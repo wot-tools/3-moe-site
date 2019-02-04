@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace WGApiDataProvider
         public readonly int ID;
         public readonly string Name;
 
+        [JsonProperty()]
         private readonly int ClanID;
         private static Clan EmptyClan = new Clan(0, String.Empty, String.Empty, 0, 0, 0, 0, 0, 0, 0, new WGApi.ClanEmblems());
         [JsonIgnore]
