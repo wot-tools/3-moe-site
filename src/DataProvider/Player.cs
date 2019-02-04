@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,15 @@ namespace WGApiDataProvider
         public readonly int BattleCount;
         public readonly decimal WinRatio;
         public readonly double Wn8;
-        public readonly double MoeRating;
+        public double MoeRating
+        {
+            get
+            {
+                if (DataProvider._PlayersMarks.TryGetValue(ID, out var result))
+                    return result.Values.Sum(x => x.Tank.MoeValue);
+                return 0;
+            }
+        }
         public readonly int WgRating;
         public readonly string ClientLanguage;
         public readonly DateTime LastBattle;
@@ -99,7 +107,6 @@ namespace WGApiDataProvider
             BattleCount = battleCount;
             WinRatio = winRatio;
             Wn8 = wn8;
-            MoeRating = moeRating;
             WgRating = wgRating;
             ClientLanguage = clientLanguage;
             LastBattle = lastBattle;
@@ -118,7 +125,6 @@ namespace WGApiDataProvider
             BattleCount = player.Statistics.Random.Battles;
             WinRatio = player.Statistics.Random.Victories / Math.Max(1m, player.Statistics.Random.Battles);
             Wn8 = -1;
-            MoeRating = -1;
             WgRating = player.WGRating;
             ClientLanguage = player.ClientLanguage;
             LastBattle = player.LastBattle;

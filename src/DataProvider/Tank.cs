@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using WGApi;
@@ -11,7 +11,17 @@ namespace WGApiDataProvider
         public static void SetDataProvider(DataProvider provider) => DataProvider = provider;
 
         public readonly int ID;
-        public readonly double MoeValue;
+        public double MoeValue
+        {
+            get
+            {
+                double tierParam = Math.Pow(1.5, -1.3 * (10 - Tier));
+                double tankTypeParam = VehicleType == VehicleTypes.SPG ? 1.25 : 1;
+                double playerParam = Math.Pow(Math.Log(0.0001 + 2) / Math.Log(0.0001 * Math.Max(ThreeMoeCount, 1) + 2), 10);
+
+                return tierParam * tankTypeParam * playerParam * 1000;
+            }
+        }
 
         public int ThreeMoeCount
         {
