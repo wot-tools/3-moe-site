@@ -47,6 +47,7 @@ namespace WGApiDataProvider
         public override Tank[] Tanks => _Tanks.Values.ToArray();
 
         private Task RunningUpdate;
+        private int nextRun;
 
         private WGApiDataProvider()
         {
@@ -91,6 +92,7 @@ namespace WGApiDataProvider
         private const string PLAYERS_DATA_FILE = "players.json";
         private const string MARKS_DATA_FILE = "marks.json";
         private const string CLANS_DATA_FILE = "clans.json";
+        private const string LAST_RUN_FILE = "nextRun.txt";
 
         private string CreateFilePath(string fileName) => Path.Combine("savedata", fileName);
 
@@ -110,8 +112,9 @@ namespace WGApiDataProvider
             var playersTask = File.ReadAllTextAsync(CreateFilePath(PLAYERS_DATA_FILE));
             var marksTask = File.ReadAllTextAsync(CreateFilePath(MARKS_DATA_FILE));
             var clansTask = File.ReadAllTextAsync(CreateFilePath(CLANS_DATA_FILE));
+            var nextRunTask = File.ReadAllTextAsync(CreateFilePath(LAST_RUN_FILE));
 
-            await Task.WhenAll(playersTask, marksTask, clansTask);
+            await Task.WhenAll(playersTask, marksTask, clansTask, nextRunTask);
 
             __Players = JsonConvert.DeserializeObject<Dictionary<int, Player>>(playersTask.Result);
             __PlayersMarks = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<int, Mark>>>(marksTask.Result);
@@ -120,6 +123,7 @@ namespace WGApiDataProvider
                 .GroupBy(m => m.TankID)
                 .ToDictionary(g => g.Key, g => g.ToDictionary(m => m.PlayerID));
             __Clans = JsonConvert.DeserializeObject<Dictionary<int, Clan>>(clansTask.Result);
+            nextRun = Convert.ToInt32(nextRunTask.Result);
         }
 
         private async Task Save()
@@ -130,7 +134,8 @@ namespace WGApiDataProvider
             var playersTask = File.WriteAllTextAsync(CreateFilePath(PLAYERS_DATA_FILE), JsonConvert.SerializeObject(__Players));
             var marksTask = File.WriteAllTextAsync(CreateFilePath(MARKS_DATA_FILE), JsonConvert.SerializeObject(__PlayersMarks));
             var clansTask = File.WriteAllTextAsync(CreateFilePath(CLANS_DATA_FILE), JsonConvert.SerializeObject(__Clans));
-            await Task.WhenAll(playersTask, marksTask, clansTask);
+            var nextRunTask = File.WriteAllTextAsync(CreateFilePath(LAST_RUN_FILE), $"{nextRun}");
+            await Task.WhenAll(playersTask, marksTask, clansTask, nextRunTask);
         }
 
         private Stack<int> PlayerIDsToCheck;
@@ -139,7 +144,8 @@ namespace WGApiDataProvider
 
         private async Task UpdateLoop()
         {
-            int i = 0;
+            int i = nextRun;
+            Console.WriteLine($"Starting up. Next run: {nextRun}");
             while (true)
             {
                 if (i >= 5)
@@ -161,6 +167,7 @@ namespace WGApiDataProvider
                 var playerTask = GetPlayers(Client, PlayerIDsToCheck.Skip(i * 100).Take(100));
                 await Task.WhenAll(clanTask ?? playerTask, playerTask);
                 i += 1;
+                nextRun = i;
             }
         }
 
