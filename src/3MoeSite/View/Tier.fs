@@ -38,7 +38,7 @@ let tiersTable params =
         
     [
         headlineBlock "Tiers"
-        [| 1 .. 10|] |> Seq.map(fun t -> Tier(t, data.Tanks.Count(fun s -> s.Tier = t), data.Tanks.Where(fun m -> m.Tier = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
+        [| 5 .. 10|] |> Seq.map(fun t -> Tier(t, data.Tanks.Count(fun s -> s.Tier = t), data.Tanks.Where(fun m -> m.Tier = t).Sum(fun r -> r.ThreeMoeCount))) |> Seq.toArray |> tableTemplate
     ] |> layout "Tiers"
 
         
