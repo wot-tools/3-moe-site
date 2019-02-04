@@ -175,7 +175,7 @@ namespace WGApiDataProvider
         {
             __Tanks = new Dictionary<int, Tank>();
             var vehicles = await client.GetVehiclesAsync();
-            foreach (var kvp in vehicles)
+            foreach (var kvp in vehicles.Where(x => x.Value.Tier >= 5))
                 __Tanks.Add(kvp.Key, new Tank(kvp.Key, kvp.Value));
         }
 
