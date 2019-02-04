@@ -213,6 +213,7 @@ namespace WGApiDataProvider
                     ClanIDsToCheck.Add(player.ClanID.Value);
 
                 var moes = await task;
+                if (null == moes) continue;
 
                 foreach (var moe in moes.Where(m => m.Mark == 3))
                 {
