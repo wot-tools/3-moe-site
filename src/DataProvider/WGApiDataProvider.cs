@@ -208,6 +208,22 @@ namespace WGApiDataProvider
                     Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/germany-G109_Steyr_WT.png",
                 }
             }));
+            __Tanks.Add(12033, new Tank(12033, new WGApi.Tank()
+            {
+                Tier = 9,
+                VehicleType = VehicleTypes.TD,
+                Nation = Nations.USSR,
+                Name = "SU-122-54",
+                IsPremium = false,
+                Tag = "R75_SU122_54",
+                ShortName = "SU-122-54",
+                Icons = new Icons()
+                {
+                    Big = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/ussr-R75_SU122_54.png",
+                    Contour = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/contour/ussr-R75_SU122_54.png",
+                    Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/ussr-R75_SU122_54.png",
+                }
+            }));
         }
 
         private async Task GetPlayers(WGApiClient client, IEnumerable<int> playerIDs)
