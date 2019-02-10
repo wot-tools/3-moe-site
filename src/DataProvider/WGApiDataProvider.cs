@@ -224,6 +224,54 @@ namespace WGApiDataProvider
                     Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/ussr-R75_SU122_54.png",
                 }
             }));
+            __Tanks.Add(17153, new Tank(17153, new WGApi.Tank()
+            {
+                Tier = 10,
+                VehicleType = VehicleTypes.Medium,
+                Nation = Nations.USSR,
+                Name = "Object 430 B",
+                IsPremium = false,
+                Tag = "R96_Object_430B",
+                ShortName = "Obj. 430B",
+                Icons = new Icons()
+                {
+                    Big = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/ussr-R96_Object_430B.png",
+                    Contour = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/contour/ussr-R96_Object_430B.png",
+                    Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/ussr-R96_Object_430B.png",
+                }
+            }));
+            __Tanks.Add(14337, new Tank(14337, new WGApi.Tank()
+            {
+                Tier = 10,
+                VehicleType = VehicleTypes.SPG,
+                Nation = Nations.USSR,
+                Name = "Object 263",
+                IsPremium = false,
+                Tag = "R96_Object_430",
+                ShortName = "Obj. 263",
+                Icons = new Icons()
+                {
+                    Big = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/ussr-R93_Object263.png",
+                    Contour = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/contour/ussr-R93_Object263.png",
+                    Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/ussr-R93_Object263.png",
+                }
+            }));
+            __Tanks.Add(62017, new Tank(62017, new WGApi.Tank()
+            {
+                Tier = 8,
+                VehicleType = VehicleTypes.Heavy,
+                Nation = Nations.France,
+                Name = "AMX M4 mle. 49 Libert�",
+                IsPremium = false,
+                Tag = "F74_AMX_M4_1949_Liberte",
+                ShortName = "AMX M4 49 L",
+                Icons = new Icons()
+                {
+                    Big = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/france-F74_AMX_M4_1949_Liberte.png",
+                    Contour = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/contour/france-F74_AMX_M4_1949_Liberte.png",
+                    Small = "http://api.worldoftanks.eu/static/2.64.0/wot/encyclopedia/vehicle/small/france-F74_AMX_M4_1949_Liberte.png",
+                }
+            }));
         }
 
         private async Task GetPlayers(WGApiClient client, IEnumerable<int> playerIDs)
